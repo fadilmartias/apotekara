@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('obats', function (Blueprint $table) {
+        Schema::create('satuans', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_obat')->unique();
-            $table->integer('harga_satuan')->nullable()->unsigned();
-            $table->integer('harga_strip')->nullable()->unsigned();
-            $table->integer('stok')->nullable();
+            $table->foreignId('obat_id')->constrained();
+            $table->string('nama_satuan');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('obats');
+        Schema::dropIfExists('satuans');
     }
 };

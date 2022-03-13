@@ -53,7 +53,7 @@ class ObatController extends Controller
 
         for ($i=0; $i < count($name); $i++) {
             $data = [
-                'name' =>$name[$i],
+                'nama_obat' =>$name[$i],
                 'satuan' => $satuan[$i],
                 'harga' => $harga[$i],
                 'stok' => $stok[$i],
@@ -71,7 +71,7 @@ class ObatController extends Controller
      */
     public function show(Obat $obat)
     {
-        //
+
     }
 
     /**
@@ -100,7 +100,7 @@ class ObatController extends Controller
         $data = $request->all();
         $obat = Obat::findOrFail($id);
         $obat->update([
-            'name' => $data['name'],
+            'nama_obat' => $data['name'],
             'satuan' => $data['satuan'],
             'harga' => $data['harga'],
             'stok' => $data['stok'],

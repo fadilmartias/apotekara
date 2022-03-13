@@ -22,7 +22,7 @@
                                                     @csrf
                                                     <div class="form-group">
                                                         <input type="text" name="name" placeholder="Nama Obat"
-                                                            class="form-control form-control-user" value="{{ old('name') ?? $obat->name }}"
+                                                            class="form-control form-control-user" value="{{ old('name') ?? $obat->nama_obat }}"
                                                             required />
                                                     </div>
                                                     <div class="form-group">

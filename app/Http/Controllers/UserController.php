@@ -46,7 +46,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         User::create([
-            'name' => $data['name'],
+            'nama_user' => $data['name'],
             'username' => $data['username'],
             'password' => bcrypt($data['password']),
             'email' => $data['email'],
@@ -97,7 +97,7 @@ class UserController extends Controller
             $user->update(['password' => bcrypt($data['password'])]);
         }
         $user->update([
-            'name' => $data['name'],
+            'nama_user' => $data['name'],
             'username' => $data['username'],
             'email' => $data['email'],
             'no_hp' => $data['no_hp'],

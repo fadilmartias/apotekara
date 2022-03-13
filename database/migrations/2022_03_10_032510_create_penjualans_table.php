@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('obats', function (Blueprint $table) {
+        Schema::create('penjualans', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_obat')->unique();
-            $table->integer('harga_satuan')->nullable()->unsigned();
-            $table->integer('harga_strip')->nullable()->unsigned();
-            $table->integer('stok')->nullable();
+            $table->foreignId('user_id')->constrained();
+            $table->string('no_penjualan')->unique();
+            $table->integer('total_harga')->unsigned();
             $table->timestamps();
+
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('obats');
+        Schema::dropIfExists('penjualans');
     }
 };
