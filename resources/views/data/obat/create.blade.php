@@ -6,7 +6,6 @@
 <div class="container">
     <form action="{{ route('obat.store') }}" class="insert-form" id="insert_form" method="POST">
     @csrf
-    <hr>
     <h1 class="text-center">Tambah Obat</h1>
     <hr>
     <div class="input-field">
@@ -22,8 +21,17 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><input type="text" name="name[]" class="form-control" required></td>
-                        <td><input type="text" name="satuan[]" class="form-control" required></td>
+                        <td>@livewire('search-obat')</td>
+                        <td>
+                            <select class="form-control" name="satuan[]">
+                                <option value="Pcs">Pcs
+                                </option>
+                                <option value="Strip">Strip
+                                </option>
+                                <option value="Botol">Botol
+                                </option>
+                            </select>
+                        </td>
                         <td><input type="text" name="harga[]" class="form-control" required></td>
                         <td><input type="text" name="stok[]" class="form-control" required></td>
                         <td><input type="button" name="add" id="add" value="Tambah Baris" class="btn btn-primary"></td>
@@ -46,7 +54,7 @@
             html+=
             html+='<tr>'
             html+='<td><input type="text" name="name[]" class="form-control" required></td>'
-            html+='<td><input type="text" name="satuan[]" class="form-control" required></td>'
+            html+='<td><select class="form-control" name="satuan[]"><option value="Pcs">Pcs</option><option value="Strip">Strip</option><option value="Botol">Botol</option></select></td>'
             html+='<td><input type="text" name="harga[]" class="form-control" required></td>'
             html+='<td><input type="text" name="stok[]" class="form-control" required></td>'
             html+='<td><input type="button" name="remove" id="remove" value="Hapus Baris" class="btn btn-danger"></td>'

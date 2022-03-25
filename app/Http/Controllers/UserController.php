@@ -10,6 +10,9 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Hashing\BcryptHasher;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\UsersImport;
+use App\Exports\UsersExport;
 
 class UserController extends Controller
 {
@@ -46,7 +49,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         User::create([
-            'name' => $data['name'],
+            'nama_user' => $data['name'],
             'username' => $data['username'],
             'password' => bcrypt($data['password']),
             'email' => $data['email'],
@@ -97,7 +100,7 @@ class UserController extends Controller
             $user->update(['password' => bcrypt($data['password'])]);
         }
         $user->update([
-            'name' => $data['name'],
+            'nama_user' => $data['name'],
             'username' => $data['username'],
             'email' => $data['email'],
             'no_hp' => $data['no_hp'],
@@ -147,5 +150,20 @@ class UserController extends Controller
     {
         Auth::logout();
         return redirect('login');
+    }
+
+    public function import(Request $request)
+    {
+        $file = $request->file('file');
+
+        $import = new UsersImport;
+        $import->import($file);
+
+        return redirect(route('user.index'))->with('success', 'Excel Berhasil Di-Upload');
+    }
+
+    public function export()
+    {
+        return Excel::download(new UsersExport, 'users.xlsx');
     }
 }

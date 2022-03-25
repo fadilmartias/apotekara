@@ -22,7 +22,7 @@
                                                     @csrf
                                                     <div class="form-group">
                                                         <input type="text" name="name" placeholder="Name"
-                                                            class="form-control form-control-user" value="{{ old('name') ?? $user->name }}"
+                                                            class="form-control form-control-user" value="{{ old('name') ?? $user->nama_user }}"
                                                             required />
                                                     </div>
                                                     <div class="form-group">

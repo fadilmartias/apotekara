@@ -2,7 +2,7 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
-        <div class="sidebar-brand-icon rotate-n-15">
+        <div class="sidebar-brand-icon">
             <i class="fas fa-solid fa-mortar-pestle"></i>
         </div>
         <div class="sidebar-brand-text mx-3">Apotek Ara Farma</div>
@@ -29,14 +29,14 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item @yield('penjualan')">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="{{ route('penjualan.index') }}">
             <i class="fas fa-fw fa-solid fa-circle-dollar-to-slot"></i>
             <span>Penjualan</span></a>
     </li>
 
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item @yield('pembelian')">
-        <a class="nav-link" href="charts.html">
+        <a class="nav-link" href="{{ route('pembelian.index') }}">
             <i class="fas fa-fw fa-solid fa-money-check-dollar"></i>
             <span>Pembelian</span></a>
     </li>
@@ -52,7 +52,7 @@
     <!-- Nav Item - Pages Collapse Menu -->
 
     <li class="nav-item @yield('obat')">
-        <a class="nav-link" href="{{ route('obat.index') }}">
+        <a class="nav-link" href="{{ route('obat.serverSide') }}">
             <i class="fas fa-fw fa-solid fa-pills"></i>
             <span>Data Obat</span></a>
     </li>

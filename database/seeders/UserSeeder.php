@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'M. Fadil Martias',
+            'nama_user' => 'M. Fadil Martias',
             'username' => 'mfadil',
             'email' => 'fadil@ara.com',
             'email_verified_at' => date('Y-m-d H:i:s', time()),
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'Indri Rahmi',
+            'nama_user' => 'Indri Rahmi',
             'username' => 'rain',
             'email' => 'indri@ara.com',
             'email_verified_at' => date('Y-m-d H:i:s', time()),
