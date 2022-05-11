@@ -15,7 +15,16 @@ return new class extends Migration
     {
         Schema::create('pembelian_obats', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('id_pembelian');
+            $table->string('no_transaksi');
+            $table->unsignedBigInteger('id_obat');
+            $table->integer('qty');
+            $table->string('satuan');
+            $table->integer('harga');
             $table->timestamps();
+
+            $table->foreign('id_pembelian')->references('id')->on('pembelians');
+            $table->foreign('id_obat')->references('id')->on('obats');
         });
     }
 

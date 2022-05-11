@@ -109,24 +109,19 @@ class ObatController extends Controller
      */
     public function store(Request $request)
     {
-        // $data = $request->all();
-        // Obat::create([
-        //     'name' => $data['name'],
-        //     'satuan' => $data['satuan'],
-        //     'harga' => $data['harga'],
-        //     'stok' => $data['stok'],
-        // ]);
 
         $name = $request->name;
         $satuan = $request->satuan;
-        $harga = $request->harga;
+        $harga_satuan = $request->harga_satuan;
+        $harga_strip = $request->harga_strip;
         $stok = $request->stok;
 
         for ($i=0; $i < count($name); $i++) {
             $data = [
                 'nama_obat' =>$name[$i],
                 'satuan' => $satuan[$i],
-                'harga' => $harga[$i],
+                'harga_satuan' => $harga_satuan[$i],
+                'harga_strip' => $harga_strip[$i],
                 'stok' => $stok[$i],
             ];
             Obat::create($data);
@@ -173,7 +168,8 @@ class ObatController extends Controller
         $obat->update([
             'nama_obat' => $data['name'],
             'satuan' => $data['satuan'],
-            'harga' => $data['harga'],
+            'harga_satuan' => $data['harga_satuan'],
+            'harga_strip' => $data['harga_strip'],
             'stok' => $data['stok'],
         ]);
         return redirect()->route('obat.serverSide')->with('success', 'Data obat berhasil diupdate');
@@ -199,8 +195,8 @@ class ObatController extends Controller
 
     public function import(Request $request)
     {
-        $file = $request->file('file');
 
+        $file = $request->file('file');
         $import = new ObatsImport;
         Excel::queueImport($import, $file);
 

@@ -27,6 +27,6 @@ class ObatSeeder extends Seeder
         //     'stok' => '5'
         // ]);
 
-        // Obat::factory()->count(120000)->create();
+        Obat::factory()->count(1000)->create();
     }
 }

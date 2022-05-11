@@ -15,7 +15,12 @@ return new class extends Migration
     {
         Schema::create('pembelians', function (Blueprint $table) {
             $table->id();
+            $table->string('no_transaksi');
+            $table->string('total_harga');
+            $table->unsignedBigInteger('id_user');
             $table->timestamps();
+
+            $table->foreign('id_user')->references('id')->on('user')->onDelete('cascade');
         });
     }
 

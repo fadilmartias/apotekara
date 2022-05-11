@@ -31,8 +31,13 @@
                                                             required />
                                                     </div>
                                                     <div class="form-group">
-                                                        <input type="number" placeholder="Harga" name="harga"
-                                                            class="form-control form-control-user" value="{{ old('harga') ?? $obat->harga }}"
+                                                        <input type="number" placeholder="Harga Satuan" name="harga_satuan"
+                                                            class="form-control form-control-user" value="{{ old('harga_satuan') ?? $obat->harga_satuan }}"
+                                                            required />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="number" placeholder="Harga Strip" name="harga_strip"
+                                                            class="form-control form-control-user" value="{{ old('harga_strip') ?? $obat->harga_strip }}"
                                                             required />
                                                     </div>
                                                     <div class="form-group">

@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+<form action="" method="po"></form>
     <title>SB Admin 2 - Blank</title>
 
     <!-- Custom fonts for this template-->

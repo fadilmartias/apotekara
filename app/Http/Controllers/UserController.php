@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Auth\LoginRequest;
-use App\Http\Requests\User\TambahUser;
 use App\Models\User;
-use Illuminate\Http\Request;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Hashing\BcryptHasher;
-use Maatwebsite\Excel\Facades\Excel;
-use App\Imports\UsersImport;
 use App\Exports\UsersExport;
+use App\Imports\UsersImport;
+use Illuminate\Http\Request;
+use App\Rules\MatchOldPassword;
+use Illuminate\Validation\Rule;
+use Illuminate\Routing\Controller;
+use Illuminate\Hashing\BcryptHasher;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\User\TambahUser;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Session;
+use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -96,7 +101,7 @@ class UserController extends Controller
     {
         $data = $request->all();
         $user = User::findOrFail($id);
-        if($data['password'] !== null) {
+        if ($data['password'] !== null) {
             $user->update(['password' => bcrypt($data['password'])]);
         }
         $user->update([
@@ -115,7 +120,8 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $user = User::find($id);
 
         $user->delete();
@@ -126,9 +132,59 @@ class UserController extends Controller
     {
         if (Auth::check()) {
             return redirect('dashboard');
-        }else{
+        } else {
             return view('login');
         }
+    }
+
+    public function profile()
+    {
+        return view('data.user.profile');
+    }
+
+    public function updateProfile(Request $request, $id)
+    {
+        
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'no_hp' => 'required|numeric',
+        ]);
+
+        $data = $request->all();
+        // dd($data);
+
+        Validator::make($data, [
+            'email' => Rule::unique('users')->ignore(Auth::user()->id),
+            'username' => Rule::unique('users')->ignore(Auth::user()->id)
+        ]);
+
+        // $id = Auth::user()->id;
+        $user = User::findOrFail($id);
+
+        $user->update([
+            'nama_user' => $data['name'],
+            'username' => $data['username'],
+            'email' => $data['email'],
+            'no_hp' => $data['no_hp'],
+        ]);
+
+        return redirect()->back()->with('success', 'Data user berhasil diupdate');;
+    }
+
+    public function updatePassword(Request $request, $id)
+    {
+        $request->validate([
+            'curr_password' => ['required', 'string', new MatchOldPassword],
+            'new_password' => 'required|string|min:8',
+            'new_password_confirmation' => 'required|string|min:8|same:new_password',
+        ]);
+
+        User::findOrFail($id)->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+        return redirect()->back()->with('success', 'Data user berhasil diupdate');;
     }
 
     public function actionLogin(Request $request)
@@ -140,7 +196,7 @@ class UserController extends Controller
 
         if (Auth::Attempt($data)) {
             return redirect('dashboard');
-        }else{
+        } else {
             Session::flash('error', 'Email atau Password Salah');
             return redirect('login');
         }

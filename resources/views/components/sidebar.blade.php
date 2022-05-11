@@ -73,13 +73,13 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link" href="https://wa.me/6282152082404?text=Assalamualaikum bang">
+        <a class="nav-link" href="https://wa.me/6285217438182?text=Assalamualaikum bang">
             <i class="fas fa-fw fa-solid fa-mobile-screen-button"></i>
             <span>Hubungi Apoteker</span></a>
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="https://wa.me/6282152082404?text=Assalamualaikum kak">
+        <a class="nav-link" href="https://wa.me/6281374501051?text=Assalamualaikum kak">
             <i class="fas fa-fw fa-solid fa-phone"></i>
             <span>Hubungi Dokter</span></a>
     </li>

@@ -15,56 +15,70 @@
                             <th>Nama Obat</th>
                             <th>Satuan</th>
                             <th>Qty</th>
+                            <th>Stok</th>
                             <th>Harga</th>
-                            {{-- <th>Stok</th> --}}
                             {{-- <th>Aksi</th> --}}
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td class="col-md-4">
-                                <select class="js-example-basic-single form-select" data-width="100%" name="name[]">
+                                <select class="js-example-basic-single form-select" data-width="100%" name="name">
                                     @foreach ($obats as $obat)
-                                        <option value="{{ $obat->nama_obat }}">{{ $obat->nama_obat }}</option>
+                                        <option value="{{ $obat->id }}" data-hargasatuan="{{ $obat->harga_satuan }}"
+                                            data-hargastrip="{{ $obat->harga_strip }}" data-stok="{{ $obat->stok }}">
+                                            {{ $obat->nama_obat }}</option>
                                     @endforeach
                                 </select>
                             </td>
-                            <td class="col-md-1"><select class="js-example-basic-single form-select" data-width="100%" name="satuan[]">
-                                <option value="Pcs">Pcs
-                                </option>
-                                <option value="Strip">Strip
-                                </option>
-                                <option value="Botol">Botol
-                                </option>
-                            </select></td>
-                            <td class="col-md-1"><input type="text" name="qty[]" class="form-control" required></td>
-                            <td class="col-md-2"><input type="text" name="harga[]" class="form-control" required></td>
-                            {{-- <td><input type="text" name="stok[]" class="form-control" required></td> --}}
+                            <td class="col-md-1"><select class="js-example-basic-single form-select" data-width="100%"
+                                    name="satuan" id="satuan" disabled>
+                                    <option value="">-- Pilih Satuan --
+                                    </option>
+                                    <option value="Pcs">Pcs
+                                    </option>
+                                    <option value="Strip">Strip
+                                    </option>
+                                    <option value="Botol">Botol
+                                    </option>
+                                </select></td>
+                            <td class="col-md-1"><input type="text" name="qty" class="form-control" required
+                                    disabled></td>
+                            <td class="col-md-1"><input type="text" name="stok" class="form-control" required
+                                    disabled></td>
+                            <td class="col-md-2">
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp</span>
+                                    </div>
+                                    <input type="text" name="harga" class="form-control" id="harga" required disabled>
+                                </div>
+                            </td>
                             {{-- <td class="col-md-1"><input type="button" name="add" id="add" value="Tambah Baris" class="btn btn-primary"></td> --}}
                         </tr>
                     </tbody>
                 </table>
                 <center>
-                    <input type="submit" name="save" id="add" value="Simpan Obat" class="btn btn-success">
+                    <input type="submit" id="add" class="btn btn-success">
                 </center>
         </form>
     </div>
     </div>
 
     @push('head-script')
-        {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> --}}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     @endpush
 
     @push('body-script')
-    {{-- <script type="text/javascript">
+        {{-- <script type="text/javascript">
         $(document).ready(function() {
             $('#add').on('click', function() {
                 var html = '';
                 html +=
                     html += '<tr>'
-                html += '<td class="col-md-4"><select class="js-example-basic-single form-select" data-width="100%" name="name[]">@foreach ($obats as $obat)<option value="{{ $obat->nama_obat }}">{{ $obat->nama_obat }}</option>@endforeach</select></td>'
+                html += '<td class="col-md-4"><select class="js-example-basic-single form-select" data-width="100%" name="name[]">@foreach ($obats as $obat)<option value="{{ $obat->id }}" data-harga="{{ $obat->harga_satuan }}">{{ $obat->nama_obat }}</option>@endforeach</select></td>'
                 html += '<td><input type="text" name="satuan[]" class="form-control" required></td>'
                 html += '<td><input type="text" name="qty[]" class="form-control" required></td>'
                 html += '<td><input type="text" name="harga[]" class="form-control" required></td>'
@@ -80,11 +94,44 @@
             $(this).closest('tr').remove();
         });
     </script> --}}
-    <script>
-       $(document).ready(function() {
-    $('.js-example-basic-single').select2();
-});
-    </script>
+        <script>
+            $(document).ready(function() {
+                $('.js-example-basic-single').select2();
+            });
+        </script>
+        <script>
+            $("[name^='name']").on('change', function() {
+                        var valHargaSatuan = $(this).children('option:selected').data('hargasatuan');
+                        var valHargaStrip = $(this).children('option:selected').data('hargastrip');
+                        var valStok = $(this).children('option:selected').data('stok');
+                        var harga = $("[name^='harga']");
+                        var stok = $("[name^='stok']");
+                        var qty = $("[name^='qty']");
+                        qty.val(1);
+                        $('#satuan').on('change', function() {
+                            var satuan = $('#satuan').val();
+                            if (satuan === "Pcs" || satuan === "Botol" ) {
+                                harga.val(valHargaSatuan);
+                            } else {
+                                harga.val(valHargaStrip);
+                            }
+                        });
+                            stok.val(valStok - 1);
+                            $(qty).removeAttr('disabled');
+                            $('#satuan').removeAttr('disabled');
+                            $(qty).on('change', function() {
+                                var satuan = $('#satuan').val();
+                                if (satuan === "Pcs" || satuan === "Botol" ) {
+                                    harga.val(valHargaSatuan * qty.val());
+                                    stok.val(valStok - qty.val());
+                            } else {
+                                harga.val(valHargaStrip * qty.val());
+                                stok.val(valStok - qty.val()*10);
+                            }
+
+                            });
+                        });
+        </script>
     @endpush
 
 

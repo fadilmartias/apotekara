@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Pembelian;
 use Illuminate\Http\Request;
+use App\Models\PembelianObat;
+use Illuminate\Support\Facades\Auth;
 
 class PembelianController extends Controller
 {
@@ -27,7 +29,7 @@ class PembelianController extends Controller
      */
     public function create()
     {
-        //
+        return view('transaksi.pembelian.create');
     }
 
     /**
@@ -38,7 +40,31 @@ class PembelianController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Pembelian::create([
+            'no_transaksi' => 'PB-'.rand(0,9999),
+            'total_harga' => $request->total_harga,
+            'nama_user' => Auth::user()->nama_user
+        ]);
+
+        $pembelian = Pembelian::orderBy('id', 'desc')->first();
+
+        $nama_obat = $request->nama_obat;
+        $qty = $request->qty;
+        $satuan = $request->satuan;
+        $harga = $request->harga;
+
+        for ($i=0; $i < count($nama_obat); $i++) {
+            $data = [
+                'nama_obat' => $nama_obat[$i],
+                'qty' =>$qty[$i],
+                'satuan' => $satuan[$i],
+                'harga' => $harga[$i],
+                'id_pembelian' => $pembelian->id,
+                'no_transaksi' => $pembelian->no_transaksi
+            ];
+            PembelianObat::create($data);
+        }
+        return redirect()->route('pembelian.index')->with('success', 'Data obat berhasil dibuat');
     }
 
     /**

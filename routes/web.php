@@ -8,6 +8,7 @@ use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
 use App\Models\Penjualan;
 use App\Models\Obat;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,9 @@ Route::post('logout', [UserController::class, 'actionLogout'])->name('actionLogo
 
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('profile', [UserController::class, 'profile'])->name('profile');
+    Route::put('profile/update/{id}', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::put('profile/update/password/{id}', [UserController::class, 'updatePassword'])->name('profile.password');
 
     // routes user (admin only)
     Route::get('data/user', [UserController::class, 'index'])->name('user.index');
@@ -63,7 +67,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('transaksi/penjualan', [PenjualanController::class, 'index'])->name('penjualan.index');
     Route::get('transaksi/penjualan/create', [PenjualanController::class, 'create'])->name('penjualan.create');
-    Route::post('transaksi/penjualan/create', [PenjualanController::class, 'store'])->name('penjualan.store');
+    Route::post('transaksi/penjualan/store', [PenjualanController::class, 'store'])->name('penjualan.store');
 
     // // routes pembelian
     Route::get('trasaksi/pembelian', [PembelianController::class, 'index'])->name('pembelian.index');

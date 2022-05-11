@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>@livewire('search-obat')</td>
+                        <td><input type="text" name="name[]" class="form-control" required></td>
                         <td>
                             <select class="form-control" name="satuan[]">
                                 <option value="Pcs">Pcs

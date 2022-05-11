@@ -12,6 +12,9 @@ class PembelianObat extends Model
     protected $fillable = [
         'id_obat',
         'id_pembelian',
-        'id_user',
+        'no_transaksi',
+        'qty',
+        'satuan',
+        'harga'
     ];
 }

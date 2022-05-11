@@ -19,14 +19,14 @@
                         confirmButton: 'btn btn-success',
                         cancelButton: 'btn btn-danger'
                     },
-                    buttonsStyling: false
+                    buttonsStyling: true
                 })
 
                 swalWithBootstrapButtons.fire({
                     title: 'Yakin ingin menghapus obat ini?',
                     text: "Sekali dihapus data akan hilang",
                     icon: 'warning',
-                    showCancelButton: true,
+                    showCancelButton: false,
                     confirmButtonText: 'Hapus',
                     cancelButtonText: 'Batal',
                     reverseButtons: true
