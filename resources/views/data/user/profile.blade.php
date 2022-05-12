@@ -33,7 +33,7 @@
                                     @endif
                                 </div><br>
                                 <div class="text-center">
-                                    <a class="mr-4" href="#" data-toggle="modal" data-target="#avatar">Ubah foto
+                                    <a class="mr-4" href="#avatar" data-toggle="modal">Ubah foto
                                         profil</a>
                                     @if (Auth::user()->avatar)
                                         <a class="text-danger" href="#" data-toggle="modal"
@@ -54,7 +54,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="name">Username<sup class="text-danger">*</sup></label>
+                                <label for="username">Username<sup class="text-danger">*</sup></label>
                                 <input type="text" class="form-control @error('username') is-invalid @enderror"
                                     id="username" name="username" placeholder="Username"
                                     value="{{ old('username') ?? Auth::user()->username }}" required />
@@ -65,7 +65,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="name">Email<sup class="text-danger">*</sup></label>
+                                <label for="email">Email<sup class="text-danger">*</sup></label>
                                 <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
                                     placeholder="Email" name="email" value="{{ old('email') ?? Auth::user()->email }}"
                                     required />
@@ -76,7 +76,7 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="name">No. HP<sup class="text-danger">*</sup></label>
+                                <label for="no_hp">No. HP<sup class="text-danger">*</sup></label>
                                 <input type="text" class="form-control @error('no_hp') is-invalid @enderror" id="no_hp"
                                     placeholder="No. HP" name="no_hp" value="{{ old('no_hp') ?? Auth::user()->no_hp }}"
                                     required />
@@ -121,7 +121,7 @@
                             <label for="curr_password" class="form-label">Password Sekarang<sup
                                     class="text-danger">*</sup></label>
                             <input type="password" class="form-control @error('curr_password') is-invalid @enderror"
-                                id="curr_password" name="curr_password" required>
+                                id="password" name="curr_password" required>
 
                             @error('curr_password')
                                 <div class="invalid-feedback">
@@ -134,7 +134,7 @@
                             <label for="new_password" class="form-label">Password Baru<sup
                                     class="text-danger">*</sup></label>
                             <input type="password" class="form-control @error('new_password') is-invalid @enderror"
-                                id="new_password" name="new_password" required>
+                                id="password" name="new_password" required>
 
                             @error('new_password')
                                 <div class="invalid-feedback">
@@ -148,7 +148,7 @@
                                     class="text-danger">*</sup></label>
                             <input type="password"
                                 class="form-control @error('new_password_confirmation') is-invalid @enderror"
-                                id="new_password_confirmation" name="new_password_confirmation" required>
+                                id="password" name="new_password_confirmation" required>
 
                             @error('new_password_confirmation')
                                 <div class="invalid-feedback">
@@ -278,5 +278,11 @@
             }
             
         });
+    </script>
+
+    <script>
+        if (document.getElementById("password").classList.contains("is-invalid")) {
+            $("#gantiPassword").modal('show');
+        }
     </script>
 @endpush

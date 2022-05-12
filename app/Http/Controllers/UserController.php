@@ -100,18 +100,37 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // $data = $request->all();
+        // $user = User::findOrFail($id);
+        // if ($data['password'] !== null) {
+        //     $user->update(['password' => bcrypt($data['password'])]);
+        // }
+        // $user->update([
+        //     'nama_user' => $data['name'],
+        //     'username' => $data['username'],
+        //     'email' => $data['email'],
+        //     'no_hp' => $data['no_hp'],
+        //     'is_admin' => false
+        // ]);
+        // return redirect()->route('user.index')->with('success', 'Data user berhasil diupdate');
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'username' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'no_hp' => 'required|numeric',
+        ]);
+
         $data = $request->all();
         $user = User::findOrFail($id);
-        if ($data['password'] !== null) {
-            $user->update(['password' => bcrypt($data['password'])]);
-        }
+
         $user->update([
             'nama_user' => $data['name'],
             'username' => $data['username'],
             'email' => $data['email'],
             'no_hp' => $data['no_hp'],
-            'is_admin' => false
         ]);
+
         return redirect()->route('user.index')->with('success', 'Data user berhasil diupdate');;
     }
 
@@ -171,7 +190,7 @@ class UserController extends Controller
             'no_hp' => $data['no_hp'],
         ]);
 
-        return redirect()->back()->with('success', 'Data user berhasil diupdate');;
+        return redirect()->back()->with('success', 'Data user berhasil diupdate');
     }
 
     public function updatePassword(Request $request, $id)

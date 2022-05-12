@@ -48,7 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::get('data/user/create', [UserController::class, 'create'])->name('user.create');
     Route::post('data/user/create', [UserController::class, 'store'])->name('user.store');
     Route::get('data/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
-    Route::post('data/user/edit/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::put('data/user/edit/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('data/user/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
     Route::post('data/user/import', [UserController::class, 'import'])->name('user.import');
     Route::get('data/user/export', [UserController::class, 'export'])->name('user.export');
@@ -63,7 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::post('data/obat/import', [ObatController::class, 'import'])->name('obat.import');
     Route::post('data/obat/create', [ObatController::class, 'store'])->name('obat.store');
     Route::get('data/obat/edit/{id}', [ObatController::class, 'edit'])->name('obat.edit');
-    Route::post('data/obat/edit/{id}', [ObatController::class, 'update'])->name('obat.update');
+    Route::put('data/obat/edit/{id}', [ObatController::class, 'update'])->name('obat.update');
     Route::post('data/obat/delete/{id}', [ObatController::class, 'destroy'])->name('obat.destroy');
 
     // // routes penjualan

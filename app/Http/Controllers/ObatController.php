@@ -110,22 +110,39 @@ class ObatController extends Controller
     public function store(Request $request)
     {
 
-        $name = $request->name;
-        $satuan = $request->satuan;
-        $harga_satuan = $request->harga_satuan;
-        $harga_strip = $request->harga_strip;
-        $stok = $request->stok;
+        // $name = $request->name;
+        // $satuan = $request->satuan;
+        // $harga_satuan = $request->harga_satuan;
+        // $harga_strip = $request->harga_strip;
+        // $stok = $request->stok;
 
-        for ($i=0; $i < count($name); $i++) {
-            $data = [
-                'nama_obat' =>$name[$i],
-                'satuan' => $satuan[$i],
-                'harga_satuan' => $harga_satuan[$i],
-                'harga_strip' => $harga_strip[$i],
-                'stok' => $stok[$i],
-            ];
-            Obat::create($data);
-        }
+        // for ($i=0; $i < count($name); $i++) {
+        //     $data = [
+        //         'nama_obat' =>$name[$i],
+        //         'satuan' => $satuan[$i],
+        //         'harga_satuan' => $harga_satuan[$i],
+        //         'harga_strip' => $harga_strip[$i],
+        //         'stok' => $stok[$i],
+        //     ];
+        //     Obat::create($data);
+        // }
+
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            // 'satuan' => 'required|string',
+            'harga_satuan' => 'required|string',
+            'harga_strip' => 'required|string',
+            'stok' => 'required|string',
+        ]);
+
+        Obat::create([
+            'nama_obat' => $validatedData['name'],
+            // 'satuan' => $validatedData['satuan'],
+            'harga_satuan' => $validatedData['harga_satuan'],
+            'harga_strip' => $validatedData['harga_strip'],
+            'stok' => $validatedData['stok'],
+        ]);
+
         return redirect()->route('obat.serverSide')->with('success', 'Data obat berhasil dibuat');
     }
 
@@ -167,7 +184,7 @@ class ObatController extends Controller
         $obat = Obat::findOrFail($id);
         $obat->update([
             'nama_obat' => $data['name'],
-            'satuan' => $data['satuan'],
+            // 'satuan' => $data['satuan'],
             'harga_satuan' => $data['harga_satuan'],
             'harga_strip' => $data['harga_strip'],
             'stok' => $data['stok'],
