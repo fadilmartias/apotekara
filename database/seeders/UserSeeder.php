@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => date('Y-m-d H:i:s', time()),
             'password' => bcrypt('password'),
             'is_admin' => true,
-            'no_hp' => '082152082404'
+            'no_hp' => '082152082404',
         ]);
 
         User::create([

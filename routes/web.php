@@ -38,6 +38,9 @@ Route::middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('profile', [UserController::class, 'profile'])->name('profile');
     Route::put('profile/update/{id}', [UserController::class, 'updateProfile'])->name('profile.update');
+    Route::put('profile/update/avatar/{id}', [UserController::class, 'updateAvatar'])->name('profile.avatar');
+    Route::post('profile/update/avatar/crop/{id}', [UserController::class, 'cropAvatar'])->name('profile.avatar.crop');
+    Route::delete('profile/delete/avatar/{id}', [UserController::class, 'deleteAvatar'])->name('profile.avatar.destroy');
     Route::put('profile/update/password/{id}', [UserController::class, 'updatePassword'])->name('profile.password');
 
     // routes user (admin only)

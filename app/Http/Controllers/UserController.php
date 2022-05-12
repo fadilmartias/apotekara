@@ -16,6 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\User\TambahUser;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Support\Facades\Validator;
 
@@ -144,7 +145,7 @@ class UserController extends Controller
 
     public function updateProfile(Request $request, $id)
     {
-        
+
         $request->validate([
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:255',
@@ -184,7 +185,58 @@ class UserController extends Controller
         User::findOrFail($id)->update([
             'password' => Hash::make($request->new_password)
         ]);
-        return redirect()->back()->with('success', 'Data user berhasil diupdate');;
+        return redirect()->back()->with('success', 'Data user berhasil diupdate');
+    }
+
+    public function updateAvatar(Request $request, $id)
+    {
+        $validatedData = $request->validate([
+            'avatar' => 'required|image|file'
+        ]);
+        $user = User::findOrFail($id);
+        $avatar = $user->avatar;
+        if ($avatar) {
+            Storage::delete($avatar);
+        }
+        $validatedData['avatar'] = $request->file('avatar')->store('profile-images');
+
+        $user->update($validatedData);
+
+        return redirect()->back()->with('success', 'Avatar berhasil diperbarui');
+    }
+
+    public function cropAvatar(Request $request, $id)
+    {
+        $path = 'profile-images/';
+        $file = $request->file('avatar');
+        $new_image_name = 'UIMG' . date('Ymd') . uniqid() . '.jpg';
+
+        //upload
+        $file->move(public_path('storage/' . $path), $new_image_name);
+
+        //delete old
+        $user = User::findOrFail($id);
+        $avatar = $user->avatar;
+        if ($avatar) {
+            Storage::delete($avatar);
+        }
+        $user->update([
+            'avatar' => $path . $new_image_name
+        ]);
+
+        return response()->json(['status' => 1, 'msg' => 'Foto Profil Berhasil Diperbarui']);
+    }
+
+    public function deleteAvatar($id)
+    {
+        $user = User::findOrFail($id);
+        $avatar = $user->avatar;
+        $user->update([
+            'avatar' => NULL
+        ]);
+        Storage::delete($avatar);
+
+        return redirect()->back()->with('success', 'Avatar berhasil dihapus');
     }
 
     public function actionLogin(Request $request)
