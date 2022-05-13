@@ -61,6 +61,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
+                                <th>Avatar</th>
                                 <th>Nama</th>
                                 <th>Email</th>
                                 <th>No HP</th>
@@ -71,6 +72,17 @@
                             @forelse ($users as $user)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
+                                    <td>
+                                        <div class="text-center">
+                                            @if ($user->avatar)
+                                            <img class="rounded-circle" style="height:75px; width:75px;"
+                                            src="{{ asset('storage/' . $user->avatar) }}">
+                                            @else
+                                            <img class="rounded-circle" style="height:75px; width:75px;"
+                                            src="{{ asset('img/undraw_profile.svg') }}">
+                                            @endif
+                                        </div>
+                                    </td>
                                     <td>{{ $user->nama_user }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->no_hp }}</td>

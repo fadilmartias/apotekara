@@ -1,14 +1,14 @@
 @extends('layouts.app')
-@section('title', 'Tambah Penjualan - Apotek Ara Farma')
-@section('penjualan', 'active')
+@section('title', 'Tambah Pembelian - Apotek Ara Farma')
+@section('pembelian', 'active')
 @section('content')
 
     <div class="container-fluid">
                 <div class="card shadow-sm">
                     <div class="card-body">
-                    <form action="{{ route('penjualan.store') }}" class="insert-form" id="insert_form" method="POST">
+                    <form action="{{ route('pembelian.store') }}" class="insert-form" id="insert_form" method="POST">
                         @csrf
-                        <h1 class="text-center">Tambah Penjualan</h1>
+                        <h1 class="text-center">Tambah Pembelian</h1>
                         <hr>
                         @if ($message = Session::get('success'))
                             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -22,17 +22,27 @@
                             <table class="table table-bordered" id="table_field">
                                 <thead>
                                     <tr>
+                                        <th>Nama Penjual</th>
                                         <th>Nama Obat</th>
                                         <th>Satuan</th>
                                         <th>Qty</th>
                                         <th>Stok</th>
-                                        <th>Harga</th>
+                                        <th>Harga Satuan</th>
+                                        <th>Total Harga</th>
                                         {{-- <th>Aksi</th> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="col-md-4">
+                                        <td class="col-md-2"><input type="text" name="nama_penjual"
+                                            class="form-control @error('nama_penjual') is-invalid @enderror" required>
+                                        @error('nama_penjual')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </td>
+                                        <td class="col-md-2">
                                             <select
                                                 class="js-example-basic-single form-select @error('name') is-invalid @enderror"
                                                 data-width="100%" name="name" required>
@@ -53,7 +63,7 @@
                                         </td>
                                         <td class="col-md-1"><select
                                                 class="js-example-basic-single form-select @error('satuan') is-invalid @enderror"" data-width="
-                                                100%" name="satuan" id="satuan" disabled required>
+                                                100%" name="satuan" id="satuan" required>
                                                 <option value="">-- Pilih Satuan --
                                                 </option>
                                                 <option value="Pcs">Pcs
@@ -70,7 +80,7 @@
                                             @enderror
                                         </td>
                                         <td class="col-md-1"><input type="text" name="qty"
-                                                class="form-control @error('qty') is-invalid @enderror" required disabled>
+                                                class="form-control @error('qty') is-invalid @enderror" required >
                                             @error('qty')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -78,7 +88,7 @@
                                             @enderror
                                         </td>
                                         <td class="col-md-1"><input type="text" name="stok"
-                                                class="form-control @error('stok') is-invalid @enderror" required disabled>
+                                                class="form-control @error('stok') is-invalid @enderror" required>
                                             @error('stok')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -90,11 +100,26 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">Rp</span>
                                                 </div>
-                                                <input type="text" name="harga"
-                                                    class="form-control @error('harga') is-invalid @enderror" id="harga"
-                                                    required disabled>
+                                                <input type="text" name="harga_satuan"
+                                                    class="form-control @error('harga_satuan') is-invalid @enderror" id="harga_satuan"
+                                                    required>
                                             </div>
-                                            @error('harga')
+                                            @error('harga_satuan')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                            @enderror
+                                        </td>
+                                        <td class="col-md-2">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Rp</span>
+                                                </div>
+                                                <input type="text" name="total_harga"
+                                                    class="form-control @error('total_harga') is-invalid @enderror" id="total_harga"
+                                                    required>
+                                            </div>
+                                            @error('total_harga')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
@@ -107,7 +132,7 @@
 
 
                             <div class="text-center">
-                                <a class="btn btn-danger mr-3" href="{{ route('penjualan.index') }}">Kembali</a>
+                                <a class="btn btn-danger mr-3" href="{{ route('pembelian.index') }}">Kembali</a>
                                 <input type="submit" id="add" class="btn btn-success">
                             </div>
                     </form>
@@ -152,36 +177,30 @@
         </script>
         <script>
             $("[name^='name']").on('change', function() {
-                var valHargaSatuan = $(this).children('option:selected').data('hargasatuan');
-                var valHargaStrip = $(this).children('option:selected').data('hargastrip');
                 var valStok = $(this).children('option:selected').data('stok');
-                var harga = $("[name^='harga']");
+                var harga_satuan = $("[name^='harga_satuan']");
                 var stok = $("[name^='stok']");
                 var qty = $("[name^='qty']");
                 $('#satuan').on('change', function() {
                     qty.val(1);
-                    stok.val(valStok - 1);
+                    stok.val(valStok + 1);
                     $(qty).removeAttr('disabled');
-                    var satuan = $('#satuan').val();
-                    if (satuan === "Pcs" || satuan === "Botol") {
-                        harga.val(valHargaSatuan);
-                    } else {
-                        harga.val(valHargaStrip);
-                    }
+                });
+                $('#satuan').on('change', function() {
+                    qty.val(1);
+                    stok.val(valStok + 1);
+                    $(qty).removeAttr('disabled');
                 });
                 qty.val(1);
-                stok.val(valStok - 1);
+                stok.val(valStok + 1);
                 $('#satuan').removeAttr('disabled');
                 $(qty).on('change', function() {
                     var satuan = $('#satuan').val();
                     if (satuan === "Pcs" || satuan === "Botol") {
-                        harga.val(valHargaSatuan * qty.val());
-                        stok.val(valStok - qty.val());
+                        stok.val(valStok + Number(qty.val()));
                     } else {
-                        harga.val(valHargaStrip * qty.val());
-                        stok.val(valStok - qty.val() * 10);
+                        stok.val(valStok + qty.val() * 10);
                     }
-
                 });
             });
         </script>

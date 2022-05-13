@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Obat;
 use App\Models\Pembelian;
 use Illuminate\Http\Request;
 use App\Models\PembelianObat;
@@ -29,7 +30,10 @@ class PembelianController extends Controller
      */
     public function create()
     {
-        return view('transaksi.pembelian.create');
+        $obats = Obat::orderBy('nama_obat')->get();
+        return view('transaksi.pembelian.create', [
+            'obats' => $obats
+        ]);
     }
 
     /**
@@ -40,31 +44,60 @@ class PembelianController extends Controller
      */
     public function store(Request $request)
     {
-        Pembelian::create([
-            'no_transaksi' => 'PB-'.rand(0,9999),
-            'total_harga' => $request->total_harga,
-            'nama_user' => Auth::user()->nama_user
+        // Pembelian::create([
+        //     'no_transaksi' => 'PB-'.rand(0,9999),
+        //     'total_harga' => $request->total_harga,
+        //     'nama_user' => Auth::user()->nama_user
+        // ]);
+
+        // $pembelian = Pembelian::orderBy('id', 'desc')->first();
+
+        // $nama_obat = $request->nama_obat;
+        // $qty = $request->qty;
+        // $satuan = $request->satuan;
+        // $harga = $request->harga;
+
+        // for ($i=0; $i < count($nama_obat); $i++) {
+        //     $data = [
+        //         'nama_obat' => $nama_obat[$i],
+        //         'qty' =>$qty[$i],
+        //         'satuan' => $satuan[$i],
+        //         'harga' => $harga[$i],
+        //         'id_pembelian' => $pembelian->id,
+        //         'no_transaksi' => $pembelian->no_transaksi
+        //     ];
+        //     PembelianObat::create($data);
+        // }
+
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'satuan' => 'required',
+            'qty' => 'required',
+            'nama_penjual' => 'required',
+            'harga_satuan' => 'required',
+            'total_harga' => 'required',
         ]);
 
-        $pembelian = Pembelian::orderBy('id', 'desc')->first();
+        $obat = Obat::where('id', $validatedData['name'])->first();
 
-        $nama_obat = $request->nama_obat;
-        $qty = $request->qty;
-        $satuan = $request->satuan;
-        $harga = $request->harga;
+        $stokAwal = $obat->stok;
+        $stokAkhir = $stokAwal + $validatedData['qty'];
 
-        for ($i=0; $i < count($nama_obat); $i++) {
-            $data = [
-                'nama_obat' => $nama_obat[$i],
-                'qty' =>$qty[$i],
-                'satuan' => $satuan[$i],
-                'harga' => $harga[$i],
-                'id_pembelian' => $pembelian->id,
-                'no_transaksi' => $pembelian->no_transaksi
-            ];
-            PembelianObat::create($data);
-        }
-        return redirect()->route('pembelian.index')->with('success', 'Data obat berhasil dibuat');
+        Pembelian::create([
+            'user_id' => Auth::user()->id,
+            'obat_id' => $validatedData['name'],
+            'satuan' => $validatedData['satuan'],
+            'qty' => $validatedData['qty'],
+            'harga_satuan' => $validatedData['harga_satuan'],
+            'total_harga' => $validatedData['total_harga'],
+            'nama_penjual' => $validatedData['nama_penjual'],
+        ]);
+
+        $obat->update([
+            'stok' => $stokAkhir
+        ]);
+
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan');
     }
 
     /**

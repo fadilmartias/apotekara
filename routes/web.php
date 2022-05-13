@@ -74,8 +74,8 @@ Route::middleware('auth')->group(function () {
 
     // // routes pembelian
     Route::get('trasaksi/pembelian', [PembelianController::class, 'index'])->name('pembelian.index');
-    // Route::get('transaksi/pembelian/create', [PembelianController::class, 'create'])->name('pembelian.create');
-    // Route::post('transaksi/pembelian/create', [PembelianController::class, 'store'])->name('pembelian.store');
+    Route::get('transaksi/pembelian/create', [PembelianController::class, 'create'])->name('pembelian.create');
+    Route::post('transaksi/pembelian/create', [PembelianController::class, 'store'])->name('pembelian.store');
 
 });
 

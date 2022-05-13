@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Penjualan;
-use App\Models\PenjualanObat;
 use Illuminate\Http\Request;
 use App\Models\Obat;
+use Illuminate\Support\Facades\Auth;
 
 class PenjualanController extends Controller
 {
@@ -16,11 +16,9 @@ class PenjualanController extends Controller
      */
     public function index()
     {
-        $transaksis = PenjualanObat::with('Obat')->get();
-        $penjualans = Penjualan::with('Obat')->get();
+        $penjualans = Penjualan::get();
         return view('transaksi.penjualan.index', [
             'penjualans' => $penjualans,
-            'transaksis' => $transaksis
         ]);
 
 
@@ -47,7 +45,40 @@ class PenjualanController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'satuan' => 'required',
+            'qty' => 'required',
+        ]);
+
+
+        $obat = Obat::where('id', $validatedData['name'])->first();
+
+        $stokAwal = $obat->stok;
+        $stokAkhir = $stokAwal - $validatedData['qty'];
+
+        if ($validatedData['satuan'] === 'Strip') {
+            $harga = $validatedData['qty'] * $obat->harga_strip;
+        } else {
+            $harga = $validatedData['qty'] * $obat->harga_satuan;
+        }
+
+        Penjualan::create([
+            'user_id' => Auth::user()->id,
+            'obat_id' => $validatedData['name'],
+            'satuan' => $validatedData['satuan'],
+            'qty' => $validatedData['qty'],
+            'total_harga' => $harga
+        ]);
+
+        $obat->update([
+            'stok' => $stokAkhir
+        ]);
+
+        return redirect()->back()->with('success', 'Data berhasil ditambahkan');
+
+
     }
 
     /**

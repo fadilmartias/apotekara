@@ -15,12 +15,14 @@ return new class extends Migration
     {
         Schema::create('pembelians', function (Blueprint $table) {
             $table->id();
-            $table->string('no_transaksi');
-            $table->string('total_harga');
-            $table->unsignedBigInteger('id_user');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('obat_id')->constrained();
+            $table->string('satuan')->nullable();
+            $table->string('nama_penjual')->nullable();
+            $table->integer('qty')->nullable();
+            $table->integer('harga_satuan');
+            $table->integer('total_harga')->nullable();
             $table->timestamps();
-
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

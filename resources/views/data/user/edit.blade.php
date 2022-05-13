@@ -25,10 +25,10 @@
                             <div class="form-group">
                                 <div class="text-center">
                                     @if ($user->avatar)
-                                        <img class="rounded-circle" style="height:150px; width:150px; "
+                                        <img class="rounded-circle" style="height:150px; width:150px;"
                                             src="{{ asset('storage/' . $user->avatar) }}">
                                     @else
-                                        <img class="rounded-circle" style="width:15%"
+                                        <img class="rounded-circle" style="height:150px; width:150px;"
                                             src="{{ asset('img/undraw_profile.svg') }}">
                                     @endif
                                 </div><br>

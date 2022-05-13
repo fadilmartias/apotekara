@@ -13,11 +13,10 @@ class Penjualan extends Model
 
     protected $fillable = [
         'total_harga',
-        'no_penjualan',
+        'obat_id',
         'user_id',
         'qty',
         'satuan',
-        'harga',
     ];
 
     /**
@@ -30,14 +29,15 @@ class Penjualan extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function Obat(): BelongsTo
+    {
+        return $this->belongsTo(Obat::class);
+    }
+
     /**
      * The Obat that belong to the Penjualan
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function Obat(): BelongsToMany
-    {
-        return $this->belongsToMany(Obat::class, 'penjualan_obats', 'penjualan_id', 'obat_id');
-    }
 
 }

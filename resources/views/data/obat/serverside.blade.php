@@ -156,6 +156,7 @@ aria-hidden="true">
         $('#datatables').dataTable({
             processing: true,
             serverSide: true,
+            // order: [[1, 'asc']],
             ajax: {
                 url : "{{ route('obat.json') }}"
             },

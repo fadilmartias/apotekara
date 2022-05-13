@@ -28,15 +28,15 @@
                                         <img class="rounded-circle" style="height:150px; width:150px; "
                                             src="{{ asset('storage/' . Auth::user()->avatar) }}">
                                     @else
-                                        <img class="rounded-circle" style="width:15%"
+                                        <img class="rounded-circle" style="height:150px; width:150px;"
                                             src="{{ asset('img/undraw_profile.svg') }}">
                                     @endif
                                 </div><br>
                                 <div class="text-center">
-                                    <a class="mr-4" href="#avatar" data-toggle="modal">Ubah foto
+                                    <a href="#avatar" data-toggle="modal">Ubah foto
                                         profil</a>
                                     @if (Auth::user()->avatar)
-                                        <a class="text-danger" href="#" data-toggle="modal"
+                                        <a class="text-danger ml-4" href="#" data-toggle="modal"
                                             data-target="#hapusAvatar">Hapus
                                             foto profil</a>
                                     @endif
@@ -276,7 +276,7 @@
                 alert(message);
                 window.location.reload()
             }
-            
+
         });
     </script>
 

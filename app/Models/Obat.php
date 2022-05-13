@@ -17,9 +17,4 @@ class Obat extends Model
         'harga_strip',
         'stok',
     ];
-
-    public function Penjualan(): BelongsToMany
-    {
-        return $this->belongsToMany(Penjualan::class, 'penjualan_obats', 'obat_id', 'penjualan_id');
-    }
 }
