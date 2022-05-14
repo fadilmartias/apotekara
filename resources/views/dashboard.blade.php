@@ -39,7 +39,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
                                                 Total Pengeluaran Hari Ini</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. 0</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $today_pembelian }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-solid fa-money-check-dollar fa-2x text-gray-300"></i>
@@ -57,7 +57,7 @@
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                                 Pendapatan Bersih Hari Ini</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. 0</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $today_pendapatan }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="fas fa-solid fa-rupiah-sign fa-2x text-gray-300"></i>
@@ -72,11 +72,4 @@
 
                 </div>
                 <!-- /.container-fluid -->
-
-    <!-- Page level plugins -->
-    <script src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-
-    <!-- Page level custom scripts -->
-    <script src="{{ asset('js/demo/chart-area-demo.js') }}"></script>
-    <script src="{{ asset('js/demo/chart-pie-demo.js') }}"></script>
 @endsection

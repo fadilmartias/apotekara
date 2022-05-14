@@ -117,7 +117,7 @@
                                                 </div>
                                                 <input type="text" name="total_harga"
                                                     class="form-control @error('total_harga') is-invalid @enderror" id="total_harga"
-                                                    required>
+                                                    required disabled>
                                             </div>
                                             @error('total_harga')
                                                 <div class="invalid-feedback">
@@ -178,9 +178,10 @@
         <script>
             $("[name^='name']").on('change', function() {
                 var valStok = $(this).children('option:selected').data('stok');
-                var harga_satuan = $("[name^='harga_satuan']");
                 var stok = $("[name^='stok']");
+                var harga_satuan = $("[name^='harga_satuan']");
                 var qty = $("[name^='qty']");
+                var total_harga = $("[name^='total_harga']");
                 $('#satuan').on('change', function() {
                     qty.val(1);
                     stok.val(valStok + 1);
@@ -190,6 +191,9 @@
                     qty.val(1);
                     stok.val(valStok + 1);
                     $(qty).removeAttr('disabled');
+                });
+                $('#harga_satuan').on('change', function() {
+                    total_harga.val(qty.val() * harga_satuan.val());
                 });
                 qty.val(1);
                 stok.val(valStok + 1);

@@ -75,13 +75,13 @@ class PembelianController extends Controller
             'qty' => 'required',
             'nama_penjual' => 'required',
             'harga_satuan' => 'required',
-            'total_harga' => 'required',
         ]);
 
         $obat = Obat::where('id', $validatedData['name'])->first();
 
         $stokAwal = $obat->stok;
         $stokAkhir = $stokAwal + $validatedData['qty'];
+        $totalHarga = $validatedData['harga_satuan'] * $validatedData['qty'];
 
         Pembelian::create([
             'user_id' => Auth::user()->id,
@@ -89,7 +89,7 @@ class PembelianController extends Controller
             'satuan' => $validatedData['satuan'],
             'qty' => $validatedData['qty'],
             'harga_satuan' => $validatedData['harga_satuan'],
-            'total_harga' => $validatedData['total_harga'],
+            'total_harga' => $totalHarga,
             'nama_penjual' => $validatedData['nama_penjual'],
         ]);
 
