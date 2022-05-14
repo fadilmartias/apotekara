@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ObatController;
-use App\Http\Controllers\PembelianController;
-use App\Http\Controllers\PenjualanController;
-use App\Models\Penjualan;
 use App\Models\Obat;
 use App\Models\User;
+use App\Models\Penjualan;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\ObatController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\PenjualanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,11 @@ Route::get('/', function(){
 Route::get('/404', function(){
     return view('404');
 })->name('404');
+
+Route::get('/reset', function(){
+    Artisan::call('migrate:fresh --seed');
+    return redirect()->back();
+});
 
 Route::get('login', [UserController::class, 'login'])->name('login');
 
