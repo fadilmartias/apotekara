@@ -52,7 +52,7 @@
     <!-- Nav Item - Pages Collapse Menu -->
 
     <li class="nav-item @yield('obat')">
-        <a class="nav-link" href="{{ route('obat.serverSide') }}">
+        <a class="nav-link" href="{{ route('obat.index') }}">
             <i class="fas fa-fw fa-solid fa-pills"></i>
             <span>Data Obat</span></a>
     </li>

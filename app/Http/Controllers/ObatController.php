@@ -143,7 +143,7 @@ class ObatController extends Controller
             'stok' => $validatedData['stok'],
         ]);
 
-        return redirect()->route('obat.serverSide')->with('success', 'Data obat berhasil dibuat');
+        return redirect()->route('obat.index')->with('success', 'Data obat berhasil dibuat');
     }
 
     /**
@@ -189,7 +189,7 @@ class ObatController extends Controller
             'harga_strip' => $data['harga_strip'],
             'stok' => $data['stok'],
         ]);
-        return redirect()->route('obat.serverSide')->with('success', 'Data obat berhasil diupdate');
+        return redirect()->route('obat.index')->with('success', 'Data obat berhasil diupdate');
     }
 
     /**
@@ -202,7 +202,7 @@ class ObatController extends Controller
     {
         Obat::where('id',$id)->delete();
 
-        return redirect()->route('obat.serverSide')->with('success', 'Data obat berhasil dihapus');
+        return redirect()->route('obat.index')->with('success', 'Data obat berhasil dihapus');
     }
 
     public function export()
@@ -217,6 +217,6 @@ class ObatController extends Controller
         $import = new ObatsImport;
         Excel::queueImport($import, $file);
 
-        return redirect(route('obat.serverSide'))->with('success', 'Excel Berhasil Di-Upload');
+        return redirect(route('obat.index'))->with('success', 'Excel Berhasil Di-Upload');
     }
 }

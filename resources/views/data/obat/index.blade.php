@@ -106,7 +106,7 @@
                         @endif
                         <thead>
                             <tr>
-                                <th>id</th>
+                                <th>No</th>
                                 <th>Nama Obat</th>
                                 <th>Harga/Satuan</th>
                                 <th>Harga/Strip</th>
@@ -117,10 +117,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($obats->chunk(300) as $chunk)
-                                @forelse ($chunk as $obat)
+                                @forelse ($obats as $obat)
                                     <tr>
-                                        <td>{{ $obat->id }}</td>
+                                        <td>{{ $loop->index + 1 }}</td>
                                         <td>{{ $obat->nama_obat }}</td>
                                         <td>{{ $obat->harga_satuan }}</td>
                                         <td>{{ $obat->harga_strip }}</td>
@@ -171,10 +170,9 @@
     </tr>
 @empty
     <tr>
-        <td class="text-center" colspan="6"> Data Kosong</td>
+        <td class="text-center" colspan="7"> Data Kosong</td>
     </tr>
     @endforelse
-    @endforeach
     </tbody>
     </table>
     </div>

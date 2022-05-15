@@ -60,8 +60,8 @@ Route::middleware('auth')->group(function () {
     Route::get('data/user/export', [UserController::class, 'export'])->name('user.export');
 
     // routes obat
-    // Route::get('data/obat', [ObatController::class, 'index'])->name('obat.index');
-    Route::get('data/obat', [ObatController::class, 'serverSide'])->name('obat.serverSide');
+    Route::get('data/obat', [ObatController::class, 'index'])->name('obat.index');
+    Route::get('data/obat/serverside', [ObatController::class, 'serverSide'])->name('obat.serverSide');
     Route::get('data/obat/json', [ObatController::class, 'json'])->name('obat.json');
     Route::get('data/obat/create', [ObatController::class, 'create'])->name('obat.create');
     // admin only
@@ -70,7 +70,7 @@ Route::middleware('auth')->group(function () {
     Route::post('data/obat/create', [ObatController::class, 'store'])->name('obat.store');
     Route::get('data/obat/edit/{id}', [ObatController::class, 'edit'])->name('obat.edit');
     Route::put('data/obat/edit/{id}', [ObatController::class, 'update'])->name('obat.update');
-    Route::post('data/obat/delete/{id}', [ObatController::class, 'destroy'])->name('obat.destroy');
+    Route::delete('data/obat/delete/{id}', [ObatController::class, 'destroy'])->name('obat.destroy');
 
     // // routes penjualan
 
