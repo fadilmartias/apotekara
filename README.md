@@ -5,9 +5,10 @@ WEBSITE INI AKAN TERUS DIUPDATE KEDEPANNYA SESUAI MOOD GUE HAHAHA
 <a href="http://apotekara.herokuapp.com/">KLIK INI UNTUK KE WEBSITE APLIKASI </a>
 
 AKUN UNTUK LOGIN
-
+<strong>
 Username : mfadil <br>
 Password : password
+</strong>
 
 KALAU ADA KELUHAN ATAU SARAN BISA CHAT GUA DI <a href="https://wa.me/6289627821571?text=Assalamualaikum kak">SINI</a>
 
