@@ -10,7 +10,7 @@ Username : mfadil <br>
 Password : password
 </strong>
 
-KALAU ADA KELUHAN ATAU SARAN BISA CHAT GUA DI <a href="https://wa.me/6289627821571?text=Assalamualaikum kak">SINI</a>
+KALAU ADA KELUHAN ATAU SARAN BISA CHAT GUA DI <a href="https://wa.me/6289627821571?text=Assalamualaikum bro">SINI</a>
 
 UNTUK KALIAN YANG MAU NGEMBANGIN WEBSITE INI BOLEH BANGET YA
 
