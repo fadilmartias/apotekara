@@ -4,7 +4,7 @@ WEBSITE INI AKAN TERUS DIUPDATE KEDEPANNYA SESUAI MOOD GUE HAHAHA
 
 <a href="http://apotekara.herokuapp.com/">KLIK INI UNTUK KE WEBSITE APLIKASI </a>
 
-AKUN UNTUK LOGIN
+AKUN UNTUK LOGIN <br>
 <strong>
 Username : mfadil <br>
 Password : password
