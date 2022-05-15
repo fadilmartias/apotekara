@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             UserSeeder::class,
-            ObatSeeder::class,
+            // ObatSeeder::class,
             // PenjualanSeeder::class,
             // PenjualanObatSeeder::class,
 
