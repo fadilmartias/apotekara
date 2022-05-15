@@ -2,7 +2,8 @@
 
 <h1>PROJECT GABUT FADIL</h1>
 
-<a href"http://apotekara.herokuapp.com/">KLIK INI UNTUK KE WEBSITE APLIKASI</a>
+<a href"http://apotekara.herokuapp.com/">
+KLIK INI UNTUK KE WEBSITE APLIKASI </a>
 
 AKUN UNTUK LOGIN
 
