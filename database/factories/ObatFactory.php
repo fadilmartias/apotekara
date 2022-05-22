@@ -16,12 +16,12 @@ class ObatFactory extends Factory
      */
     public function definition()
     {
-        $data = [
-            'nama_obat' => $this->faker->name(),
-            'harga_satuan' => $this->faker->numberBetween(1000, 100000),
-            'stok' => $this->faker->numberBetween(0, 1000),
-        ];
+        // $data = [
+        //     'nama_obat' => $this->faker->name(),
+        //     'harga_satuan' => $this->faker->numberBetween(1000, 100000),
+        //     'stok' => $this->faker->numberBetween(0, 1000),
+        // ];
 
-        return $data;
+        // return $data;
     }
 }
