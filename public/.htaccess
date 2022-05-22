@@ -3,8 +3,7 @@
         Options -MultiViews -Indexes
     </IfModule>
 
-    # enable symbolic links
-    Options +FollowSymLinks
+    RewriteEngine On
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
