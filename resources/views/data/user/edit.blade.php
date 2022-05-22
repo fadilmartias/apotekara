@@ -33,10 +33,10 @@
                                     @endif
                                 </div><br>
                                 <div class="text-center">
-                                    <a class="mr-4" href="#avatar" data-toggle="modal">Ubah foto
+                                    <a href="#avatar" data-toggle="modal">Ubah foto
                                         profil</a>
                                     @if ($user->avatar)
-                                        <a class="text-danger" href="#" data-toggle="modal"
+                                        <a class="text-danger ml-4" href="#" data-toggle="modal"
                                             data-target="#hapusAvatar">Hapus
                                             foto profil</a>
                                     @endif
