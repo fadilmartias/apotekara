@@ -2,8 +2,6 @@
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
-    RewriteEngine On 
-    RewriteBase /vendor
 
     # enable symbolic links
     Options +FollowSymLinks
