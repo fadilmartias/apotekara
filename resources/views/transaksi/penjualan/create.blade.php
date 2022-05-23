@@ -18,7 +18,7 @@
                                 </button>
                             </div>
                         @endif
-                        <div class="input-field">
+                        <div class="table-responsive">
                             <table class="table table-bordered" id="table_field">
                                 <thead>
                                     <tr>
