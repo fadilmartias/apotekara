@@ -24,7 +24,7 @@
                             <label>Thumbnail<sup class="text-danger">*</sup></label>
                             <div class="custom-file">
                                 <label class="custom-file-label" for="file">Pilih File</label>
-                                <input type="file" class="custom-file-input @error('thumbnail') is-invalid @enderror" id="file" name="thumbnail"
+                                <input type="file" class="custom-file-input @error('thumbnail') is-invalid @enderror" id="file" name="thumbnail" accept="image/png, image/gif, image/jpeg"
                                     id="thumbnail" required />
                                 @error('thumbnail')
                                     <div class="invalid-feedback">
@@ -76,7 +76,7 @@
                                 <label for="body">Content<sup class="text-danger">*</sup></label>
                                 <textarea id="summernote" class="form-control @error('body') is-invalid @enderror" id="body"
                                     name="body" required style="resize: none">{{ old('body') }}</textarea>
-        
+
                                 @error('body')
                                 <div class="invalid-feedback">
                                     {{ $message }}

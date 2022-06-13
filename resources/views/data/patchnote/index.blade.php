@@ -72,13 +72,8 @@
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>
                                         <div class="text-center">
-                                            @if ($pn->thumbnail)
-                                            <img class="rounded-circle" style="height:75px; width:75px;"
+                                            <img class="" style="height:75px; width:75px;"
                                             src="{{ asset('storage/' . $pn->thumbnail) }}">
-                                            @else
-                                            <img class="rounded-circle" style="height:75px; width:75px;"
-                                            src="{{ asset('img/undraw_profile.svg') }}">
-                                            @endif
                                         </div>
                                     </td>
                                     <td>{{ $pn->title}}</td>

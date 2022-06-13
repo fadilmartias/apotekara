@@ -26,12 +26,21 @@ class PatchNoteController extends Controller
         $validatedData = $request->validate([
             'title' => 'required|string',
             'slug' => 'required|string',
-            'thumbnail' => 'required|string',
+            'thumbnail' => 'required',
             'featured_img' => 'required|string',
             'subtitle' => 'required|string',
             'body' => 'required|string'
         ]);
-        
+
+        $path = 'patchnotes-images/';
+        $file = $validatedData['thumbnail'];
+        $new_image_name = 'UIMG' . date('Ymd') . uniqid() . '.jpg';
+
+        //upload
+        $file->move(public_path('storage/' . $path), $new_image_name);
+
+        // dd($validatedData);
+
         PatchNote::create([
             'title' => $validatedData['title'],
             'slug' => $validatedData['slug'],
