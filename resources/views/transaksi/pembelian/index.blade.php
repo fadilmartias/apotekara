@@ -52,7 +52,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($pembelians as $pembelian)
+                        @foreach ($pembelians as $pembelian)
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $pembelian->created_at->format('d-M-Y H.i') }}</td>
@@ -67,11 +67,7 @@
             </div>
         </div>
     </div>
-@empty
-    <tr>
-        <td colspan="9" class="text-center"> Data Kosong</td>
-    </tr>
-    @endforelse
+    @endforeach
     </tbody>
     </table>
 </div>

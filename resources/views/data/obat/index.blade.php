@@ -118,7 +118,7 @@
                         </thead>
                         <tbody>
                             @foreach ($obats->chunk(300) as $chunk)
-                                @forelse ($chunk as $obat)
+                                @foreach ($chunk as $obat)
                                     <tr>
                                         <td>{{ $obat->id }}</td>
                                         <td>{{ $obat->nama_obat }}</td>
@@ -169,11 +169,7 @@
     </td>
     @endif
     </tr>
-@empty
-    <tr>
-        <td class="text-center" colspan="6"> Data Kosong</td>
-    </tr>
-    @endforelse
+    @endforeach
     @endforeach
     </tbody>
     </table>

@@ -63,7 +63,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Ara Farma v.1.0 by <a href="https://github.com/fadilmartias">M. FADIL MARTIAS</a> </span>
+                        <span>Copyright &copy; Ara Farma v.1.1 by <a href="https://github.com/fadilmartias">M. FADIL MARTIAS</a> </span>
                     </div>
                 </div>
             </footer>

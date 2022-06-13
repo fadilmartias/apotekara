@@ -1,4 +1,6 @@
 @extends('layouts.app')
+@section('title', 'Patch Note - Apotek Ara Farma')
+@section('patchnote', 'active')
 @section('content')
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -13,5 +15,5 @@
                 </div>
                 <!-- /.container-fluid -->
 @endsection
-
+  
 

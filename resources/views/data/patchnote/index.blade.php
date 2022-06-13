@@ -1,22 +1,22 @@
 @extends('layouts.app')
 @section('title', 'Data User - Apotek Ara Farma')
-@section('user', 'active')
+@section('kelola-patchnote', 'active')
 @section('content')
     <!-- Begin Page Content -->
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Data User
+        <h1 class="h3 mb-2 text-gray-800">Data Patch Note
         </h1>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3 ">
-                <a href="{{ route('user.create') }}" class="btn btn-primary btn-icon-split">
+                <a href="{{ route('patchnote.create') }}" class="btn btn-primary btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa-plus"></i>
                     </span>
-                    <span class="text">Tambah User
+                    <span class="text">Tambah Patch Note
                     </span>
                 </a>
 
@@ -61,40 +61,36 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Avatar</th>
-                                <th>Nama</th>
-                                <th>Email</th>
-                                <th>No HP</th>
-                                <th>Aksi</th>
+                                <th>Thumbnail</th>
+                                <th>Title</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($users as $user)
+                            @foreach ($patchnotes as $pn)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>
                                         <div class="text-center">
-                                            @if ($user->avatar)
+                                            @if ($pn->thumbnail)
                                             <img class="rounded-circle" style="height:75px; width:75px;"
-                                            src="{{ asset('storage/' . $user->avatar) }}">
+                                            src="{{ asset('storage/' . $pn->thumbnail) }}">
                                             @else
                                             <img class="rounded-circle" style="height:75px; width:75px;"
                                             src="{{ asset('img/undraw_profile.svg') }}">
                                             @endif
                                         </div>
                                     </td>
-                                    <td>{{ $user->nama_user }}</td>
-                                    <td>{{ $user->email }}</td>
-                                    <td>{{ $user->no_hp }}</td>
+                                    <td>{{ $pn->title}}</td>
                                     <td>
-                                        <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning">
+                                        <a href="{{ route('patchnote.edit', $pn->id) }}" class="btn btn-warning">
                                             <i class="fab fa-solid fa-pen-to-square"></i>
                                         </a>
                                         <button type="submit" class="btn btn-danger"
-                                            onclick="swalDelete({{ $user->id }})">
+                                            onclick="swalDelete({{ $pn->id }})">
                                             <i class="fab fa-solid fa-trash"></i>
-                                            <form id="id-{{ $user->id }}"
-                                                action="{{ route('user.destroy', $user->id) }}" method="POST">
+                                            <form id="id-{{ $pn->id }}"
+                                                action="{{ route('patchnote.destroy', $pn->id) }}" method="POST">
                                                 @csrf
                                                 @method('delete')
                                             </form>

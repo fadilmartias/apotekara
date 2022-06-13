@@ -92,10 +92,16 @@
          Others
      </div>
 
-     <li class="nav-item">
-        <a class="nav-link" href="{{ route('404') }}">
+     <li class="nav-item @yield('patchnote')">
+        <a class="nav-link" href="{{ route('patchnote.show') }}">
             <i class="fas fa-fw fa-solid fa-file-lines"></i>
             <span>Patch Notes</span></a>
+    </li>
+
+    <li class="nav-item @yield('kelola-patchnote')">
+        <a class="nav-link" href="{{ route('patchnote.index') }}">
+            <i class="fas fa-fw fa-solid fa-file-lines"></i>
+            <span>Kelola Patch Notes</span></a>
     </li>
 
     <!-- Sidebar Toggler (Sidebar) -->

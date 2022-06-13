@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\User\TambahUser;
+use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -260,15 +261,32 @@ class UserController extends Controller
 
     public function actionLogin(Request $request)
     {
-        $data = [
-            'username' => $request->input('username'),
-            'password' => $request->input('password'),
-        ];
+        // $data = [
+        //     'username' => $request->input('username'),
+        //     'password' => $request->input('password'),
+        // ];
 
-        if (Auth::Attempt($data)) {
-            return redirect('dashboard');
-        } else {
-            Session::flash('error', 'Email atau Password Salah');
+        // if (Auth::Attempt($data)) {
+        //     return redirect('dashboard');
+        // } else {
+        //     Session::flash('error', 'Email atau Password Salah');
+        //     return redirect('login');
+        // }
+
+        $input = $request->all();
+  
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
+  
+        $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $remember_me = $request->has('remember_me') ? true : false; 
+        if(auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password']), $remember_me))
+        {
+            return redirect()->route('dashboard');
+        }else{
+            Session::flash('error', 'Data yang Anda masukkan salah');
             return redirect('login');
         }
     }
@@ -279,18 +297,51 @@ class UserController extends Controller
         return redirect('login');
     }
 
-    public function import(Request $request)
+    public function register()
     {
-        $file = $request->file('file');
-
-        $import = new UsersImport;
-        $import->import($file);
-
-        return redirect(route('user.index'))->with('success', 'Excel Berhasil Di-Upload');
+        return view('register');
     }
 
-    public function export()
+    public function actionRegister(Request $request)
     {
-        return Excel::download(new UsersExport, 'users.xlsx');
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'username' => 'required|unique:users,username|string',
+            'email' => 'required|email|unique:users,email',
+            'no_hp' => 'required|string',
+            'new_password' => 'required|string|min:8',
+            'new_password_confirmation' => 'required|string|min:8|same:new_password',
+        ]);
+
+        $user = User::create([
+            'nama_user' => $validatedData['name'],
+            'username' => $validatedData['username'],
+            'password' => bcrypt($validatedData['new_password']),
+            'email' => $validatedData['email'],
+            'no_hp' => $validatedData['no_hp'],
+            'is_admin' => false
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        // Session::flash('success', 'Akun berhasil dibuat');
+        return redirect()->route('dashboard');
     }
+
+    // public function import(Request $request)
+    // {
+    //     $file = $request->file('file');
+
+    //     $import = new UsersImport;
+    //     $import->import($file);
+
+    //     return redirect(route('user.index'))->with('success', 'Excel Berhasil Di-Upload');
+    // }
+
+    // public function export()
+    // {
+    //     return Excel::download(new UsersExport, 'users.xlsx');
+    // }
 }

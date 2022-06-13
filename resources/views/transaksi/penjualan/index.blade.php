@@ -50,7 +50,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($penjualans as $penjualan)
+                            @foreach ($penjualans as $penjualan)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
                                     <td>{{ $penjualan->created_at->format('d-M-Y H.i') }}</td>
@@ -63,11 +63,7 @@
                 </div>
             </div>
         </div>
-    @empty
-        <tr>
-            <td colspan="7" class="text-center"> Data Kosong</td>
-        </tr>
-        @endforelse
+        @endforeach
         </tbody>
         </table>
     </div>

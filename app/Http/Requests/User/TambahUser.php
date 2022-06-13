@@ -29,7 +29,9 @@ class TambahUser extends FormRequest
             'username' => 'required|unique:users,username|string',
             'password' => 'required|string',
             'email' => 'required|email|unique:users,email',
-            'no_hp' => 'required|string'
+            'no_hp' => 'required|string',
+            'new_password' => 'required|string|min:8',
+            'new_password_confirmation' => 'required|string|min:8|same:new_password',
         ];
     }
 }
