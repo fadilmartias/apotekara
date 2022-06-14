@@ -86,14 +86,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('trasaksi/pembelian', [PembelianController::class, 'index'])->name('pembelian.index');
     Route::get('transaksi/pembelian/create', [PembelianController::class, 'create'])->name('pembelian.create');
     Route::post('transaksi/pembelian/create', [PembelianController::class, 'store'])->name('pembelian.store');
-    
+
     Route::get('system-updates', [PatchNoteController::class, 'show'])->name('patchnote.show');
+    // Route::get('system-updates/{slug}', [PatchNoteController::class, 'details'])->name('patchnote.details');
     Route::get('system-updates/setting', [PatchNoteController::class, 'index'])->name('patchnote.index');
     Route::get('system-updates/setting/create', [PatchNoteController::class, 'create'])->name('patchnote.create');
     Route::post('system-updates/setting/store', [PatchNoteController::class, 'store'])->name('patchnote.store');
-    Route::get('system-updates/setting/edit', [PatchNoteController::class, 'edit'])->name('patchnote.edit');
-    Route::put('system-updates/setting/update', [PatchNoteController::class, 'update'])->name('patchnote.update');
-    Route::delete('system-updates/setting/destroy', [PatchNoteController::class, 'destroy'])->name('patchnote.destroy');
+    Route::get('system-updates/setting/edit/{id}', [PatchNoteController::class, 'edit'])->name('patchnote.edit');
+    Route::put('system-updates/setting/update/{id}', [PatchNoteController::class, 'update'])->name('patchnote.update');
+    Route::delete('system-updates/setting/destroy/{id}', [PatchNoteController::class, 'destroy'])->name('patchnote.destroy');
 });
 
 require __DIR__.'/auth.php';

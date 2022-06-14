@@ -44,7 +44,7 @@ class PatchNoteController extends Controller
         PatchNote::create([
             'title' => $validatedData['title'],
             'slug' => $validatedData['slug'],
-            'thumbnail' => $validatedData['thumbnail'],
+            'thumbnail' => $path . $new_image_name,
             'featured_img' => $validatedData['featured_img'],
             'subtitle' => $validatedData['subtitle'],
             'body' => $validatedData['body'],
@@ -90,7 +90,7 @@ class PatchNoteController extends Controller
             'body' => $validatedData['body'],
         ]);
 
-        return redirect()->route('user.index')->with('success', 'Patch Note berhasil diupdate');;
+        return redirect()->route('patchnote.index')->with('success', 'Patch Note berhasil diupdate');;
     }
 
     public function destroy($id)
@@ -98,6 +98,6 @@ class PatchNoteController extends Controller
         $pn = PatchNote::find($id);
 
         $pn->delete();
-        return redirect()->route('user.index')->with('success', 'Patch Note berhasil dihapus');
+        return redirect()->route('patchnote.index')->with('success', 'Patch Note berhasil dihapus');
     }
 }

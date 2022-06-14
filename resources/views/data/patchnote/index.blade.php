@@ -78,6 +78,9 @@
                                     </td>
                                     <td>{{ $pn->title}}</td>
                                     <td>
+                                        <a data-toggle="modal" data-target="#details{{ $loop->index }}" class="btn btn-secondary">
+                                            <i class="fab fa-solid fa-eye"></i>
+                                        </a>
                                         <a href="{{ route('patchnote.edit', $pn->id) }}" class="btn btn-warning">
                                             <i class="fab fa-solid fa-pen-to-square"></i>
                                         </a>
@@ -92,6 +95,41 @@
                                         </button>
                                     </td>
                                 </tr>
+                                 <!-- Modal -->
+    <div class="modal fade" id="details{{ $loop->index }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Details</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body p-3">
+                <dl class="row">
+                    <dt class="col-4">Thumbnail</dt>
+                    <dd class="col-8"> <img class="w-50 h-50"
+                        src="{{ asset('storage/' . $pn->thumbnail) }}"></dd>
+                    <dt class="col-4">Title</dt>
+                    <dd class="col-8">{{ $pn->title }}</dd>
+                    <dt class="col-4">Slug</dt>
+                    <dd class="col-8">{{ $pn->slug }}</dd>
+                    <dt class="col-4">Subtitle</dt>
+                    <dd class="col-8">{{ $pn->subtitle }}</dd>
+                    <dt class="col-4">Featured Img</dt>
+                    <dd class="col-8">{{ $pn->featured_img }}</dd>
+                    <dt class="col-4">Body</dt>
+                    <dd class="col-8">{{ $pn->body }}</dd>
+                  </dl>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
                             @endforeach
                         </tbody>
                     </table>
@@ -101,30 +139,7 @@
 
     </div>
     <!-- /.container-fluid -->
-    <!-- Modal -->
-    {{-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Hapus User</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Yakin ingin menghapus user ini?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-          <form class="d-inline" action="{{ route('user.destroy', $user->id) }}" method="POST">
-            @csrf
-            @method('delete')
-            <button type="submit" class="btn btn-primary">Hapus User</button>
-        </form>
-        </div>
-      </div>
-    </div>
-  </div> --}}
+
 
  {{-- <!-- Modal -->
  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
