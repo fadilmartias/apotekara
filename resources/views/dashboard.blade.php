@@ -84,7 +84,11 @@
             </div>
             <div class="modal-body">
                 <strong>Apa yang baru di versi ini?</strong>
-                <p>Login sekarang bisa pake username atau email</p>
+                <ul>
+                    <li>Login sekarang bisa dengan email/password</li>
+                    <li>Perbaikan bug gambar, reset password dan konfirmasi email ketika mendaftar</li>
+                    <li>Peningkatan pengalaman pengguna</li>
+                </ul>
             </div>
             <div class="modal-footer">
                 {{-- <div class="d-flex flex-grow-1 justify-content-start custom-control custom-checkbox">

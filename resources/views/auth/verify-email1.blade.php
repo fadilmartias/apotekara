@@ -44,10 +44,11 @@
                 <div class="card-body p-5">
                     {{-- <img class="" style="height:350px; width:350px;"
                         src="{{ asset('storage/source-img/forgot-password.jpg') }}"> <br> --}}
-                       <p> Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn't receive the email, we will gladly send you another</p>
+                       <p>Silakan buka link verifikasi yang telah kami kirimkan ke emailmu untuk memverifikasi akunmu. Tidak menerima email? Tekan tombol kirim ulang email verifikasi</p>
+                       
                        @if (session('status') == 'verification-link-sent')
                        <div class="alert alert-success p-3">
-                          A new verification link has been sent to the email address you provided during registration
+                          Link verifikasi baru telah dikirim ke emailmu
                        </div>
                    @endif
                    <div class="mt-4 d-flex items-center justify-content-between">
@@ -55,7 +56,7 @@
                         @csrf
                         <div>
                             <button type="submit" class="btn btn-primary">
-                                Resend Verification Email
+                                Kirim Ulang Email Verifikasi
                             </button>
                         </div>
                     </form>

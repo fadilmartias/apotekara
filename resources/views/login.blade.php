@@ -159,7 +159,7 @@
                                     class="text-danger">*</sup></label>
                             <input type="password" class="form-control @error('new_password') is-invalid @enderror"
                                 name="new_password" required>
-                                <div><small class="text-muted">*password minimal 8 karakter</small></div>
+                                <div><small class="text-muted">- password minimal 8 karakter</small></div>
 
                             @error('new_password')
                                 <div class="invalid-feedback">
