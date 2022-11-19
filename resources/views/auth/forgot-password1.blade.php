@@ -34,7 +34,7 @@
                 </div>
                 <div class="card-body p-5">
                     <img class="" style="height:350px; width:350px;"
-                        src="{{ asset('storage/source-img/forgot-password.svg') }}"> <br>
+                        src="{{ asset('img/forgot-password.svg') }}"> <br>
                     Lupa Password? Jangan khawatir, cukup masukkan emailmu dan kami akan mengirimkan link untuk mereset
                     passwordmu
                     <form class="user mt-4" action="{{ route('password.email') }} " method="POST">
