@@ -84,7 +84,7 @@
             <span>Hubungi Dokter</span></a>
     </li>
 
-     <!-- Divider -->
+     {{-- <!-- Divider -->
      <hr class="sidebar-divider">
 
      <!-- Heading -->
@@ -102,7 +102,7 @@
         <a class="nav-link" href="{{ route('patchnote.index') }}">
             <i class="fas fa-fw fa-solid fa-file-lines"></i>
             <span>Kelola Patch Notes</span></a>
-    </li>
+    </li> --}}
 
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
