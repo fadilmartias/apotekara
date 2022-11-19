@@ -67,13 +67,30 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-1">
+                <form action=""method="post">
+                    <select name="" id=""class="form-control">
+                        <option value="">2022</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="card shadow" id="chartTransaksi"></div>
+            </div>
+            <div class="col-6">
+                <div class="card shadow" id="chartKeuangan"></div>
+            </div>
+        </div>
     </div>
     <!-- /.container-fluid -->
 @endsection
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalCenterTitle" aria-hidden="true" data-backdrop="static">
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -102,10 +119,146 @@
 </div>
 
 @push('body-script')
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <script>
-        if ({{ $first_time_login }}) {
-            $("#exampleModalCenter").modal('show');
-        }
-    </script>
+        // if ({{ $first_time_login }}) {
+        //     $("#exampleModalCenter").modal('show');
+        // }
+        var bulan = JSON.parse('{!! json_encode($bulan) !!}');
+        // Grafik Keuangan
+        var pendapatan = JSON.parse('{!! json_encode($pendapatan) !!}');
+        var pengeluaran = JSON.parse('{!! json_encode($pengeluaran) !!}');
+        var options = {
+            series: [{
+                name: 'Pengeluaran',
+                data: pengeluaran
+            }, {
+                name: 'Pendapatan',
+                data: pendapatan
+            }, ],
+            chart: {
+                type: 'bar',
+                height: 350,
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: bulan,
+            },
+            yaxis: {
+                title: {
+                    text: 'Rp'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            title: {
+    text: 'Grafik Keuangan',
+    align: 'center',
+    margin: 10,
+    offsetX: 0,
+    offsetY: 0,
+    floating: false,
+    style: {
+      fontSize:  '14px',
+      fontWeight:  'bold',
+      fontFamily:  'Nunito',
+      color:  '#263238'
+    },
+},
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return "Rp. " + val
+                    }
+                }
+            }
+        };
 
+        var chart = new ApexCharts(document.querySelector("#chartKeuangan"), options);
+        chart.render();
+
+        // chart Keuangan
+        var penjualan = JSON.parse('{!! json_encode($penjualan) !!}');
+        var pembelian = JSON.parse('{!! json_encode($pembelian) !!}');
+
+
+        var options = {
+            series: [{
+                name: 'Pembelian',
+                data: pembelian
+            }, {
+                name: 'Penjualan',
+                data: penjualan
+            }, ],
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: bulan,
+            },
+            yaxis: {
+                title: {
+                    text: 'Jumlah'
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            title: {
+    text: 'Grafik Transaksi',
+    align: 'center',
+    margin: 10,
+    offsetX: 0,
+    offsetY: 0,
+    floating: false,
+    style: {
+      fontSize:  '14px',
+      fontWeight:  'bold',
+      fontFamily:  'Nunito',
+      color:  '#263238'
+    },
+},
+            tooltip: {
+                y: {
+                    formatter: function(val) {
+                        return val
+                    }
+                }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chartTransaksi"), options);
+        chart.render();
+    </script>
 @endpush

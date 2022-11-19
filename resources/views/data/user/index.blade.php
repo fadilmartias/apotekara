@@ -88,11 +88,11 @@
                                     <td>{{ $user->no_hp }}</td>
                                     <td>
                                         <a href="{{ route('user.edit', $user->id) }}" class="btn btn-warning">
-                                            <i class="fab fa-solid fa-pen-to-square"></i>
+                                            <i class="fas fa-pen-to-square"></i>
                                         </a>
                                         <button type="submit" class="btn btn-danger"
                                             onclick="swalDelete({{ $user->id }})">
-                                            <i class="fab fa-solid fa-trash"></i>
+                                            <i class="fas fa-trash"></i>
                                             <form id="id-{{ $user->id }}"
                                                 action="{{ route('user.destroy', $user->id) }}" method="POST">
                                                 @csrf

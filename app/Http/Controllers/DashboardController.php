@@ -28,11 +28,106 @@ class DashboardController extends Controller
         } else {
             $first_time_login = false;
         }
+
+        // Bulang
+        $bulan = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        for($i = 0; $i < count($bulan); $i++){
+            $bulan[$i];
+        }
+
+        // Grafik Transaksi
+        // Penjualan
+        $penjualanPerBulan = Penjualan::whereYear('created_at', 2022)->get()->groupBy(function($data){
+            return Carbon::parse($data->created_at)->format('m');
+        });
+
+        $penjualan2=[];
+        $penjualan2Arr=[];
+        foreach($penjualanPerBulan as $month => $values) {
+            $penjualan2Arr[$month-1]=count($values);
+        }
+
+        for ($i = 0; $i <= 11; $i++) {
+            if(!empty($penjualan2Arr[$i])){
+                $penjualan2[$i] = $penjualan2Arr[$i];    
+            }else{
+                $penjualan2[$i] = 0;    
+            }
+        }
+
+        // Pembelian
+        $pembelianPerBulan = Pembelian::whereYear('created_at', 2022)->get()->groupBy(function($data){
+            return Carbon::parse($data->created_at)->format('m');
+        });
+
+        $pembelian2=[];
+        $pembelian2Arr=[];
+        foreach($pembelianPerBulan as $month => $values) {
+            $pembelian2Arr[$month-1]=count($values);
+        }
+
+        for ($i = 0; $i <= 11; $i++) {
+            if(!empty($pembelian2Arr[$i])){
+                $pembelian2[$i] = $pembelian2Arr[$i];    
+            }else{
+                $pembelian2[$i] = 0;    
+            }
+        }
+
+        // Grafik Keuangan
+        // Pendapatan
+        $pendapatanPerBulan = Penjualan::whereYear('created_at', 2022)->get()->groupBy(function($data){
+            return Carbon::parse($data->created_at)->format('m');
+        });
+
+        $pendapatan2=[];
+        $pendapatan2Arr=[];
+        foreach($pendapatanPerBulan as $month => $values) {   
+            foreach($values as $value) {
+                $pendapatan2Arr[$month-1]=$value->total_harga;
+            }
+        }
+
+        for ($i = 0; $i <= 11; $i++) {
+            if(!empty($pendapatan2Arr[$i])){
+                $pendapatan2[$i] = $pendapatan2Arr[$i];    
+            }else{
+                $pendapatan2[$i] = 0;    
+            }
+        }
+
+        // Pengeluaran
+        $pengeluaranPerBulan = Pembelian::whereYear('created_at', 2022)->get()->groupBy(function($data){
+            return Carbon::parse($data->created_at)->format('m');
+        });
+
+        $pengeluaran2=[];
+        $pengeluaran2Arr=[];
+        foreach($pengeluaranPerBulan as $month => $values) {   
+            foreach($values as $value) {
+                $pengeluaran2Arr[$month-1]=$value->total_harga;
+            }
+        }
+
+        for ($i = 0; $i <= 11; $i++) {
+            if(!empty($pengeluaran2Arr[$i])){
+                $pengeluaran2[$i] = $pengeluaran2Arr[$i];    
+            }else{
+                $pengeluaran2[$i] = 0;    
+            }
+        }
+        
+
         return view('dashboard', [
             'today_penjualan' => $today_penjualan,
             'today_pembelian' => $today_pembelian,
             'today_pendapatan' => $today_pendapatan,
             'first_time_login' => $first_time_login,
+            'penjualan' => $penjualan2,
+            'pembelian' => $pembelian2,
+            'pendapatan' => $pendapatan2,
+            'pengeluaran' => $pengeluaran2,
+            'bulan' => $bulan,
         ]);
     }
 }

@@ -132,7 +132,7 @@
                                                 </a>
                                                 <button type="submit" class="btn btn-danger"
                                                     onclick="swalDelete({{ $obat->id }})">
-                                                    <i class="fab fa-solid fa-trash"></i>
+                                                    <i class="fas fa-trash"></i>
                                                     <form id="id-{{ $obat->id }}"
                                                         action="{{ route('obat.destroy', $obat->id) }}" method="POST">
                                                         @csrf

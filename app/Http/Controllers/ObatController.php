@@ -73,11 +73,11 @@ class ObatController extends Controller
             ->addColumn('aksi', function ($data)
             {
                 $button = "<a href='" . route('obat.edit', $data->id) . "' id'" . $data->id . "' class='btn btn-warning mr-2'>
-                <i class='fab fa-solid fa-pen-to-square'></i>
+                <i class='fas fa-pen-to-square'></i>
             </a>";
                 $button .= '<button type="submit" class="btn btn-danger"
                 onclick="swalDelete('. $data->id.' )">
-                <i class="fab fa-solid fa-trash"></i>
+                <i class="fas fa-trash"></i>
                 <form id="id-' . $data->id . '"
                     action="' . route('obat.destroy', $data->id) .'" method="POST">
                     <input type="hidden" name="_token" value="'. csrf_token() .'" />
