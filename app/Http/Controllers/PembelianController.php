@@ -6,142 +6,94 @@ use App\Models\Obat;
 use App\Models\Pembelian;
 use Illuminate\Http\Request;
 use App\Models\PembelianObat;
+use App\Models\PembelianDetail;
 use Illuminate\Support\Facades\Auth;
 
 class PembelianController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $pembelians = Pembelian::get();
+        $pembelian = Pembelian::get();
+        $detailPembelian = PembelianDetail::get();
         return view('transaksi.pembelian.index', [
-            'pembelians' => $pembelians
+            'pembelian' => $pembelian,
+            'detailPembelian' => $detailPembelian
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        $obats = Obat::orderBy('nama_obat')->get();
+        $obat = Obat::orderBy('nama_obat')->get();
         return view('transaksi.pembelian.create', [
-            'obats' => $obats
+            'obat' => $obat
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        // Pembelian::create([
-        //     'no_transaksi' => 'PB-'.rand(0,9999),
-        //     'total_harga' => $request->total_harga,
-        //     'nama_user' => Auth::user()->nama_user
-        // ]);
-
-        // $pembelian = Pembelian::orderBy('id', 'desc')->first();
-
-        // $nama_obat = $request->nama_obat;
-        // $qty = $request->qty;
-        // $satuan = $request->satuan;
-        // $harga = $request->harga;
-
-        // for ($i=0; $i < count($nama_obat); $i++) {
-        //     $data = [
-        //         'nama_obat' => $nama_obat[$i],
-        //         'qty' =>$qty[$i],
-        //         'satuan' => $satuan[$i],
-        //         'harga' => $harga[$i],
-        //         'id_pembelian' => $pembelian->id,
-        //         'no_transaksi' => $pembelian->no_transaksi
-        //     ];
-        //     PembelianObat::create($data);
-        // }
-
         $validatedData = $request->validate([
-            'name' => 'required',
-            'satuan' => 'required',
+            'obat_id' => 'required',
             'qty' => 'required',
+            'total_transaksi' => 'required',
             'nama_penjual' => 'required',
-            'harga_satuan' => 'required',
         ]);
 
-        $obat = Obat::where('id', $validatedData['name'])->first();
-
-        $stokAwal = $obat->stok;
-        $stokAkhir = $stokAwal + $validatedData['qty'];
-        $totalHarga = $validatedData['harga_satuan'] * $validatedData['qty'];
+        $expTotal = explode('.', $validatedData['total_transaksi']);
+        $impTotal = implode('', $expTotal);
 
         Pembelian::create([
-            'user_id' => Auth::user()->id,
-            'obat_id' => $validatedData['name'],
-            'satuan' => $validatedData['satuan'],
-            'qty' => $validatedData['qty'],
-            'harga_satuan' => $validatedData['harga_satuan'],
-            'total_harga' => $totalHarga,
-            'nama_penjual' => $validatedData['nama_penjual'],
+            'no_transaksi' => 'PB-'.rand(0,9999),
+            'total_transaksi' => $impTotal,
+            'user_id' => Auth::id(),
+            'nama_penjual' => $validatedData['nama_penjual']
         ]);
 
-        $obat->update([
-            'stok' => $stokAkhir
-        ]);
+        $pembelian = Pembelian::latest()->first();
+        
+        for ($i=0; $i < count($validatedData['obat_id']); $i++) {
+            $obat[$i] = Obat::where('id', $validatedData['obat_id'][$i])->first();
+            $data = [
+                'obat_id' => $validatedData['obat_id'][$i],
+                'qty' =>$validatedData['qty'][$i],
+                'harga' => $obat[$i]->harga,
+                'total_harga' => $obat[$i]->harga * $validatedData['qty'][$i],
+                'no_transaksi' => $pembelian->no_transaksi
+            ];
+            $stokAwal[$i] = $obat[$i]->stok;
+            $stokAkhir[$i] = $stokAwal[$i] + $validatedData['qty'][$i];
+            PembelianDetail::create($data);
+            $obat[$i]->update([
+                'stok' => $stokAkhir[$i]
+            ]);
+        }
 
-        return redirect()->back()->with('success', 'Data berhasil ditambahkan');
-    }
+        // $validatedData = $request->validate([
+        //     'name' => 'required',
+        //     'satuan' => 'required',
+        //     'qty' => 'required',
+        //     'nama_penjual' => 'required',
+        //     'harga_satuan' => 'required',
+        // ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Pembelian  $pembelian
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Pembelian $pembelian)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Pembelian  $pembelian
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Pembelian $pembelian)
-    {
-        //
-    }
+        // $stokAwal = $obat->stok;
+        // $stokAkhir = $stokAwal + $validatedData['qty'];
+        // $totalHarga = $validatedData['harga_satuan'] * $validatedData['qty'];
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Pembelian  $pembelian
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Pembelian $pembelian)
-    {
-        //
-    }
+        // Pembelian::create([
+        //     'user_id' => Auth::user()->id,
+        //     'obat_id' => $validatedData['name'],
+        //     'satuan' => $validatedData['satuan'],
+        //     'qty' => $validatedData['qty'],
+        //     'harga_satuan' => $validatedData['harga_satuan'],
+        //     'total_harga' => $totalHarga,
+        //     'nama_penjual' => $validatedData['nama_penjual'],
+        // ]);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Pembelian  $pembelian
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Pembelian $pembelian)
-    {
-        //
+        // $obat->update([
+        //     'stok' => $stokAkhir
+        // ]);
+
+        return to_route('pembelian.index')->with('success', 'Data berhasil ditambahkan');
     }
 }

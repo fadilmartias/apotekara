@@ -16,10 +16,8 @@ return new class extends Migration
         Schema::create('penjualans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('obat_id')->constrained();
-            $table->string('satuan')->nullable();
-            $table->integer('qty')->nullable();
-            $table->integer('total_harga')->nullable();
+            $table->string('no_transaksi')->unique();
+            $table->integer('total_transaksi')->nullable();
             $table->timestamps();
 
         });

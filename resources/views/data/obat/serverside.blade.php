@@ -109,8 +109,7 @@
                         <tr>
                             <th>id</th>
                             <th>Nama Obat</th>
-                            <th>Harga/Satuan</th>
-                            <th>Harga/Strip</th>
+                            <th>Harga</th>
                             <th>Stok Tersedia</th>
                             @if (Auth::user()->is_admin)
                             <th>Aksi</th>
@@ -170,12 +169,8 @@ aria-hidden="true">
                     name: 'nama_obat'
                 },
                 {
-                    data: 'harga_satuan',
-                    name: 'harga_satuan'
-                },
-                {
-                    data: 'harga_strip',
-                    name: 'harga_strip'
+                    data: 'harga',
+                    name: 'harga'
                 },
                 {
                     data: 'stok',

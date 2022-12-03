@@ -11,22 +11,16 @@ class Pembelian extends Model
     use HasFactory;
 
     protected $fillable = [
-        'total_harga',
-        'obat_id',
+        'no_transaksi',
+        'total_transaksi',
         'user_id',
-        'qty',
-        'satuan',
         'nama_penjual',
-        'harga_satuan'
+        
     ];
 
-    public function User(): BelongsTo
+    public function User()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function Obat(): BelongsTo
-    {
-        return $this->belongsTo(Obat::class);
-    }
 }

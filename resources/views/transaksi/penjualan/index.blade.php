@@ -22,9 +22,8 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @if ($message = Session::get('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
                                 <span>{{ $message }}</span>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -37,43 +36,88 @@
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                        @endif
+                            @endif
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>No</th>
-                                <th>Tanggal Penjualan</th>
-                                <th>Nama Obat</th>
-                                <th>Satuan</th>
-                                <th>Qty</th>
+                                <th>#</th>
+                                <th>No. Transaksi</th>
                                 <th>Total Harga</th>
-                                <th>Penjual</th>
+                                <th>Penerima</th>
+                                <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($penjualans as $penjualan)
+                            @foreach ($penjualan as $data)
                                 <tr>
                                     <td>{{ $loop->index + 1 }}</td>
-                                    <td>{{ $penjualan->created_at->format('d-M-Y H.i') }}</td>
-                                    <td>{{ $penjualan->obat->nama_obat }}</td>
-                                    <td>{{ $penjualan->satuan }}</td>
-                                    <td>{{ $penjualan->qty }}</td>
-                                    <td>{{ number_format($penjualan->total_harga,0,",",".") }}</td>
-                                    <td>{{ $penjualan->user->nama_user }}</td>
+                                    <td>{{ $data->no_transaksi }}</td>
+                                    <td class="text-right">Rp. {{ number_format($data->total_transaksi, 0, ',', '.') }}</td>
+                                    <td>{{ $data->user->nama_user }}</td>
+                                    <td>
+                                        <button class="btn btn-secondary" data-toggle="modal" data-target="#detail-{{ $data->id }}">Lihat</button>
+                                    </td>
                                 </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        @endforeach
-        </tbody>
-        </table>
-    </div>
-    </div>
-    </div>
-
     </div>
     <!-- /.container-fluid -->
-
-@endsection
+@foreach ($penjualan as $data)
+    
+<!-- Modal -->
+<div class="modal fade" id="detail-{{ $data->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog  modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail Transaksi</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5 class="font-weight-bold">No. Transaksi : {{ $data->no_transaksi }}</h5>
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Obat</th>
+                            <th>Qty</th>
+                            <th>Harga</th>
+                            <th>Total Harga</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($detailPenjualan->where('no_transaksi', $data->no_transaksi) as $detail)
+                            <tr>
+                                <td>{{ $loop->index + 1 }}</td>
+                                <td>{{ $detail->obat->nama_obat }}</td>
+                                <td>{{ $detail->qty }}</td>
+                                <td class="text-right">Rp. {{ number_format($detail->harga, 0, ',', '.') }}</td>
+                                <td class="text-right">Rp. {{ number_format($detail->total_harga, 0, ',', '.') }}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                    <tfoot>
+                        <tr class="font-weight-bold">
+                            <td colspan="4">Total Harga :</td>
+                            <td class="text-right">Rp. {{ number_format($data->total_transaksi, 0, ',', '.') }}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+      </div>
+    </div>
+  </div>
+  @endforeach
+  @endsection
 
 @push('head-script')
     <link href="{{ asset('datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">

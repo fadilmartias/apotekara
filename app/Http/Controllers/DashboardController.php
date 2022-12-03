@@ -14,8 +14,8 @@ class DashboardController extends Controller
 
     public function index()
     {
-        $total_penjualan = Penjualan::whereDate('created_at', Carbon::today())->sum('total_harga');
-        $total_pembelian = Pembelian::whereDate('created_at', Carbon::today())->sum('total_harga');
+        $total_penjualan = Penjualan::whereDate('created_at', Carbon::today())->sum('total_transaksi');
+        $total_pembelian = Pembelian::whereDate('created_at', Carbon::today())->sum('total_transaksi');
         $total_pendapatan = $total_penjualan - $total_pembelian;
         $today_penjualan = "Rp. " . number_format($total_penjualan,0,",",".");
         $today_pembelian = "Rp. " . number_format($total_pembelian,0,",",".");
@@ -84,7 +84,7 @@ class DashboardController extends Controller
         $pendapatan2Arr=[];
         foreach($pendapatanPerBulan as $month => $values) {   
             foreach($values as $value) {
-                $pendapatan2Arr[$month-1]=$value->total_harga;
+                $pendapatan2Arr[$month-1]=$value->total_transaksi;
             }
         }
 
@@ -105,7 +105,7 @@ class DashboardController extends Controller
         $pengeluaran2Arr=[];
         foreach($pengeluaranPerBulan as $month => $values) {   
             foreach($values as $value) {
-                $pengeluaran2Arr[$month-1]=$value->total_harga;
+                $pengeluaran2Arr[$month-1]=$value->total_transaksi;
             }
         }
 

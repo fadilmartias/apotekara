@@ -3,314 +3,289 @@
 @section('pembelian', 'active')
 @section('content')
 
+    <!-- Begin Page Content -->
     <div class="container-fluid">
-                <div class="card shadow-sm">
+        <div class="row">
+            <div class="col">
+                <div class="card shadow-lg">
+                    <div class="card-header">
+                        Tambah Pembelian
+                    </div>
                     <div class="card-body">
-                    <form action="{{ route('pembelian.store') }}" class="insert-form" id="insert_form" method="POST">
-                        @csrf
-                        <h1 class="text-center">Tambah Pembelian</h1>
-                        <hr>
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @if ($message = Session::get('error'))
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 <span>{{ $message }}</span>
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                         @endif
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="table_field">
+                        <form action="{{ route('pembelian.store') }}" method="POST">
+                            @csrf
+                            <div class="form-group">
+                                <label for="nama_penjual" class="font-weight-bold">Nama Penjual</label>
+                                <input type="text" class="form-control @error('nama_penjual') is-invalid @enderror " id="nama_penjual"
+                                name="nama_penjual" value="{{ old('nama_penjual') }}" required />
+                            @error('nama_penjual')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                            @enderror
+                        </div>
+                            <table class="table" id="table">
                                 <thead>
                                     <tr>
-                                        <th>Nama Penjual</th>
-                                        <th>Nama Obat</th>
-                                        <th>Satuan</th>
-                                        <th>Qty</th>
-                                        <th>Stok</th>
-                                        <th>Harga Satuan</th>
-                                        <th>Total Harga</th>
-                                        {{-- <th>Aksi</th> --}}
+                                        <th style="width:45%;">Nama Obat<sup class="text-danger">*</sup></th>
+                                        <th style="width:10%;">Qty<sup class="text-danger">*</sup></th>
+                                        <th style="width:20%;">Harga<sup class="text-danger">*</sup></th>
+                                        <th style="width:20%;">Total Harga<sup class="text-danger">*</sup></th>
+                                        <th style="width:5%;">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td class="col-md-2"><input type="text" name="nama_penjual"
-                                            class="form-control @error('nama_penjual') is-invalid @enderror" required>
-                                        @error('nama_penjual')
+                                        <td>
+                                            <div class="form-group">
+                                                <div>
+                                                    <select name="obat_id[]" id="obat-0" class="form-control" onchange="loadData(0)" >
+                                                    <option selected disabled>--- Pilih Obat ---</option>
+                                                    @foreach ($obat as $data)
+                                                    <option {{ old('obat_id[]') == $data->id ? "selected" : "" }} value="{{ $data->id }}" data-stok="{{ $data->stok }}" data-harga="{{ $data->harga }}">{{ $data->nama_obat }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @error('obat_id[]')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
                                             </div>
-                                        @enderror
-                                    </td>
-                                        <td class="col-md-2">
-                                            <select
-                                                class="js-example-basic-single form-select @error('name') is-invalid @enderror"
-                                                data-width="100%" name="name" required>
-                                                <option value="">-- Pilih Obat --</option>
-                                                @foreach ($obats as $obat)
-                                                    <option value="{{ $obat->id }}"
-                                                        data-hargasatuan="{{ $obat->harga_satuan }}"
-                                                        data-hargastrip="{{ $obat->harga_strip }}"
-                                                        data-stok="{{ $obat->stok }}">
-                                                        {{ $obat->nama_obat }}</option>
-                                                @endforeach
-                                            </select><br>
-                                            @error('name')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
                                             @enderror
+                                        </div>
                                         </td>
-                                        <td class="col-md-1"><select
-                                                class="js-example-basic-single form-select @error('satuan') is-invalid @enderror"" data-width="
-                                                100%" name="satuan" id="satuan" required>
-                                                <option value="">-- Pilih Satuan --
-                                                </option>
-                                                <option value="Pcs">Pcs
-                                                </option>
-                                                <option value="Strip">Strip
-                                                </option>
-                                                <option value="Botol">Botol
-                                                </option>
-                                            </select><br>
-                                            @error('satuan')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control @error('qty[]') is-invalid @enderror " id="qty-0"
+                                                name="qty[]" onchange="loadData(0)" min="0" oninput="validity.valid||(value='');" value="{{ old('qty[]') }}" disabled />
+                                                <small class="text-muted" id="infoStok-0">Stok : -</small>
+                                            @error('qty[]')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
                                             @enderror
+                                        </div>
                                         </td>
-                                        <td class="col-md-1"><input type="text" name="qty"
-                                                class="form-control @error('qty') is-invalid @enderror" required >
-                                            @error('qty')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </td>
-                                        <td class="col-md-1"><input type="text" name="stok"
-                                                class="form-control @error('stok') is-invalid @enderror" required>
-                                            @error('stok')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
-                                        </td>
-                                        <td class="col-md-2">
-                                            <div class="input-group mb-3">
+                                        <td>
+                                            <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">Rp</span>
+                                                  </div>
+                                                <input type="text" class="text-right form-control @error('harga[]') is-invalid @enderror"
+                                                    id="harga-0" name="harga[]" value="{{ old('harga[]') }}" disabled />
+                                                @error('harga[]')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
                                                 </div>
-                                                <input type="text" name="harga_satuan"
-                                                    class="form-control @error('harga_satuan') is-invalid @enderror" id="harga_satuan"
-                                                    required>
-                                            </div>
-                                            @error('harga_satuan')
-                                                <div class="invalid-feedback">
-                                                    {{ $message }}
-                                                </div>
-                                            @enderror
                                         </td>
-                                        <td class="col-md-2">
-                                            <div class="input-group mb-3">
+                                        <td>
+                                            <div class="input-group">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">Rp</span>
-                                                </div>
-                                                <input type="text" name="total_harga"
-                                                    class="form-control @error('total_harga') is-invalid @enderror" id="total_harga"
-                                                    required disabled>
-                                            </div>
-                                            @error('total_harga')
+                                                  </div>
+                                                <input type="text" class="text-right form-control @error('total_harga[]') is-invalid @enderror"
+                                                id="total_harga-0" name="total_harga[]" value="{{ old('total_harga[]') }}" disabled />
+                                                @error('total_harga[]')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
                                                 </div>
-                                            @enderror
+                                                @enderror
+                                            </div>
                                         </td>
-                                        {{-- <td class="col-md-1"><input type="button" name="add" id="add" value="Tambah Baris" class="btn btn-primary"></td> --}}
+                                        <td>
+                                               <button type="button" class="btn btn-info" onclick="addRow()">Tambah</button>
+                                        </td>
+                                    </tr>
+                                    <tr> 
+                                       <td colspan="3" class="font-weight-bold"><h5>Total Transaksi</h5></td>
+                                       <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Rp</span>
+                                              </div>
+                                              <input type="text" name="total_transaksi" id="total" class="text-right form-control" 
+                                              {{-- style="background-color: white; border: 0"  --}}
+                                              readonly>
+                                        </div>
+                                        
+                                       </td>
+                                       <td>
+                                        <button type="submit" class="btn btn-primary">Simpan</button>
+                                       </td>
                                     </tr>
                                 </tbody>
                             </table>
-
-
-                            <div class="text-center">
-                                <a class="btn btn-danger mr-3" href="{{ route('pembelian.index') }}">Kembali</a>
-                                <input type="submit" id="add" class="btn btn-success">
-                            </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
+        </div>
     </div>
-    </div>
+    <!-- /.container-fluid -->
 
     @push('head-script')
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.1.1/build/vanilla-masker.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     @endpush
 
     @push('body-script')
-        {{-- <script type="text/javascript">
-        $(document).ready(function() {
-            $('#add').on('click', function() {
-                var html = '';
-                html +=
-                    html += '<tr>'
-                html += '<td class="col-md-4"><select class="js-example-basic-single form-select" data-width="100%" name="name[]">@foreach ($obats as $obat)<option value="{{ $obat->id }}" data-harga="{{ $obat->harga_satuan }}">{{ $obat->nama_obat }}</option>@endforeach</select></td>'
-                html += '<td><input type="text" name="satuan[]" class="form-control" required></td>'
-                html += '<td><input type="text" name="qty[]" class="form-control" required></td>'
-                html += '<td><input type="text" name="harga[]" class="form-control" required></td>'
-                // html += '<td><input type="text" name="stok[]" class="form-control" required></td>'
-                html +=
-                    '<td><input type="button" name="remove" id="remove" value="Hapus Baris" class="btn btn-danger"></td>'
-                html += '</tr>'
-                $('tbody').append(html);
 
-            });
-        });
-        $(document).on('click', '#remove', function() {
-            $(this).closest('tr').remove();
-        });
-    </script> --}}
-        <script>
-            $(document).ready(function() {
-                $('.js-example-basic-single').select2();
-            });
-        </script>
-        <script>
-            $("[name^='name']").on('change', function() {
-                var valStok = $(this).children('option:selected').data('stok');
-                var stok = $("[name^='stok']");
-                var harga_satuan = $("[name^='harga_satuan']");
-                var qty = $("[name^='qty']");
-                var total_harga = $("[name^='total_harga']");
-                $('#satuan').on('change', function() {
-                    qty.val(1);
-                    stok.val(valStok + 1);
-                    $(qty).removeAttr('disabled');
+        <script>  
+            var id = 1
+            const loadData = (index) => {
+                const qty = document.querySelector('#qty-'+index);
+                const obat = document.querySelector('#obat-'+index);
+                const harga = document.querySelector('#harga-'+index);
+                const infoStok = document.querySelector('#infoStok-'+index);
+                const total_harga = document.querySelector('#total_harga-'+index);
+                const option = obat.options[obat.selectedIndex];
+                const hargaObat = option.getAttribute('data-harga');
+                const stokObat = option.getAttribute('data-stok');
+                qty.removeAttribute('disabled');
+                harga.value = hargaObat;
+                if(qty.value != "") {
+                    const stokAkhir = parseInt(stokObat) + parseInt(qty.value) 
+                    infoStok.innerHTML = `Stok : ${stokAkhir}`
+                    total_harga.value = hargaObat * qty.value
+                } else {
+                    const stokAkhir = parseInt(stokObat) + qty.value 
+                    infoStok.innerHTML = `Stok : ${stokAkhir}`
+                }
+                var arr = document.getElementsByName('total_harga[]');
+                var tot = 0;
+                for(var i=0;i<arr.length;i++){
+                    if(parseInt(arr[i].value))
+                    tot += parseInt(arr[i].value.replaceAll('.', ''));
+                }
+                document.getElementById('total').value = tot;
+                VMasker(harga).maskMoney({
+                    // Decimal precision -> "90"
+                    precision: 0,
+                    // Decimal separator -> ",90"
+                    separator: ',',
+                    // Number delimiter -> "12.345.678"
+                    delimiter: '.',
+                    // Money unit -> "R$ 12.345.678,90"
+                    zeroCents: true
                 });
-                $('#satuan').on('change', function() {
-                    qty.val(1);
-                    stok.val(valStok + 1);
-                    $(qty).removeAttr('disabled');
+                VMasker(arr).maskMoney({
+                    // Decimal precision -> "90"
+                    precision: 0,
+                    // Decimal separator -> ",90"
+                    separator: ',',
+                    // Number delimiter -> "12.345.678"
+                    delimiter: '.',
+                    // Money unit -> "R$ 12.345.678,90"
+                    zeroCents: true
                 });
-                $('#harga_satuan').on('change', function() {
-                    total_harga.val(qty.val() * harga_satuan.val());
+                VMasker(document.getElementById('total')).maskMoney({
+                    // Decimal precision -> "90"
+                    precision: 0,
+                    // Decimal separator -> ",90"
+                    separator: ',',
+                    // Number delimiter -> "12.345.678"
+                    delimiter: '.',
+                    // Money unit -> "R$ 12.345.678,90"
+                    zeroCents: true
                 });
-                qty.val(1);
-                stok.val(valStok + 1);
-                $('#satuan').removeAttr('disabled');
-                $(qty).on('change', function() {
-                    var satuan = $('#satuan').val();
-                    if (satuan === "Pcs" || satuan === "Botol") {
-                        stok.val(valStok + Number(qty.val()));
-                    } else {
-                        stok.val(valStok + qty.val() * 10);
-                    }
-                });
-            });
+                // if(parseInt(qty.value) > parseInt(stokObat)) {
+                //     infoStok.classList.remove('text-muted')
+                //     infoStok.classList.add('text-danger')
+                //     infoStok.innerHTML = `Stok tersedia : ${stokObat}`
+                //     qty.classList.add('is-invalid')
+                // } else {
+                //     infoStok.classList.add('text-muted')
+                //     infoStok.classList.remove('text-danger')
+                //     infoStok.innerHTML = `Stok : ${stokAkhir}`
+                //     qty.classList.remove('is-invalid')
+                // }
+
+            }
+
+            const addRow = () => {
+               var index = id++
+               const table = document.getElementById('table');
+               var row = table.insertRow(2);
+               var cell1 = row.insertCell(0);
+               var cell2 = row.insertCell(1);
+               var cell3 = row.insertCell(2);
+               var cell4 = row.insertCell(3);
+               var cell5 = row.insertCell(4);
+
+               cell1.innerHTML = `<div class="form-group">
+                                                <div>
+                                                    <select name="obat_id[]" id="obat-${index}" class="form-control" onchange="loadData(${index})">
+                                                    <option selected disabled>--- Pilih Obat ---</option>
+                                                    @foreach ($obat as $data)
+                                                    <option value="{{ $data->id }}" data-stok="{{ $data->stok }}" data-harga="{{ $data->harga }}">{{ $data->nama_obat }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            @error('obat_id[]')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>`
+                
+                cell2.innerHTML = `<div class="form-group">
+                                                <input type="number" class="form-control @error('qty[]') is-invalid @enderror" id="qty-${index}"
+                                                name="qty[]" onchange="loadData(${index})" min="0" oninput="validity.valid||(value='');" value="{{ old('qty[]') }}" disabled required />
+                                                <small class="text-muted" id="infoStok-${index}">Stok : -</small>
+                                            @error('qty[]')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>`
+                cell3.innerHTML = `<div class="input-group">
+                    <div class="input-group-prepend">
+                                                    <span class="input-group-text">Rp</span>
+                                                  </div>
+                                                <input type="text" class="text-right form-control @error('harga[]') is-invalid @enderror"
+                                                    id="harga-${index}" name="harga[]" min="0" oninput="validity.valid||(value='');" value="{{ old('harga[]') }}" disabled required />
+                                                @error('harga[]')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                    @enderror
+                                                </div>`
+                cell4.innerHTML = `<div class="input-group">
+                    <div class="input-group-prepend">
+                                                    <span class="input-group-text">Rp</span>
+                                                  </div>
+                                                <input type="text" class="text-right form-control @error('total_harga[]') is-invalid @enderror"
+                                                id="total_harga-${index}" name="total_harga[]" min="0" oninput="validity.valid||(value='');" value="{{ old('total_harga[]') }}" disabled required />
+                                                @error('total_harga[]')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>`
+                cell5.innerHTML = `<button type="button" class="btn btn-danger" onclick="delRow(this)">Hapus</button>`
+            }
+            const delRow = (r) => {
+            var i = r.parentNode.parentNode.rowIndex;
+             document.getElementById('table').deleteRow(i);
+             var arr = document.getElementsByName('total_harga[]');
+             var tot = 0;
+                for(var i=0;i<arr.length;i++){
+                    if(parseInt(arr[i].value))
+                        tot += parseInt(arr[i].value.replaceAll('.', ''));
+                }
+                document.getElementById('total').value = tot;
+            }
         </script>
     @endpush
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Begin Page Content -->
-    {{-- <div class="container">
-
-                    <div class="row justify-content-center ">
-
-                        <div class="col-xl-10 col-lg-12 col-md-9">
-
-                            <div class="card o-hidden border-0 shadow-lg my-5">
-                                <div class="card-body p-0">
-                                    <!-- Nested Row within Card Body -->
-                                    <div class="row justify-content-center">
-                                        <div class="col-lg-6">
-                                            <div class="p-5">
-                                                <div class="text-center">
-                                                    <h1 class="h4 text-gray-900 mb-4">Tambah Obat</h1>
-                                                </div>
-                                                <form class="user mt-4" action="{{ route('obat.create') }} " method="POST">
-                                                    @csrf
-                                                    <div class="form-group">
-                                                        <input type="text" name="name" placeholder="Nama Obat"
-                                                            class="form-control form-control-user {{ $errors->has('name') ? 'is-invalid' : '' }}"
-                                                            required />
-                                                            @if ($errors->has('name'))
-                                                                <p class="text-danger">{{ $errors->first('name') }}</p>
-                                                            @endif
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input type="text" name="satuan" placeholder="Satuan"
-                                                            class="form-control form-control-user {{ $errors->has('satuan') ? 'is-invalid' : '' }}"
-                                                            required />
-                                                            @if ($errors->has('satuan'))
-                                                                <p class="text-danger">{{ $errors->first('satuan') }}</p>
-                                                            @endif
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input type="number" placeholder="Harga" name="harga"
-                                                            class="form-control form-control-user {{ $errors->has('harga') ? 'is-invalid' : '' }}"
-                                                            required />
-                                                            @if ($errors->has('harga'))
-                                                                <p class="text-danger">{{ $errors->first('harga') }}</p>
-                                                            @endif
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input type="number" placeholder="Stok" name="stok"
-                                                            class="form-control form-control-user {{ $errors->has('stok') ? 'is-invalid' : '' }}"
-                                                            required />
-                                                            @if ($errors->has('stok'))
-                                                                <p class="text-danger">{{ $errors->first('stok') }}</p>
-                                                            @endif
-                                                    </div>
-                                                    <div class="form-group">
-                                                    </div>
-                                                    <button class="btn btn-primary btn-user btn-block" type="submit">Submit</button>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-                <!-- /.container-fluid --> --}}
-
 @endsection
