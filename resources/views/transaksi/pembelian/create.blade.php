@@ -142,6 +142,7 @@
     @push('body-script')
 
         <script>  
+            $('#obat-0').select2();
             var id = 1
             const loadData = (index) => {
                 const qty = document.querySelector('#qty-'+index);
@@ -273,7 +274,8 @@
                                                 </div>
                                                 @enderror
                                             </div>`
-                cell5.innerHTML = `<button type="button" class="btn btn-danger" onclick="delRow(this)">Hapus</button>`
+                cell5.innerHTML = `<button type="button" class="btn btn-danger" onclick="delRow(this)">Hapus</button>`;
+                $('#obat-'+index).select2();
             }
             const delRow = (r) => {
             var i = r.parentNode.parentNode.rowIndex;

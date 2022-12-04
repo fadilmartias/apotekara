@@ -37,7 +37,7 @@
                                         <td>
                                             <div class="form-group">
                                                 <div>
-                                                    <select name="obat_id[]" id="obat-0" class="form-control" onchange="loadData(0)" >
+                                                    <select name="obat_id[]" id="obat-0" class="form-control" onchange="loadData(0)" required>
                                                     <option selected disabled>--- Pilih Obat ---</option>
                                                     @foreach ($obat as $data)
                                                     <option {{ old('obat_id[]') == $data->id ? "selected" : "" }} value="{{ $data->id }}" data-stok="{{ $data->stok }}" data-harga="{{ $data->harga }}">{{ $data->nama_obat }}</option>
@@ -54,7 +54,7 @@
                                         <td>
                                             <div class="form-group">
                                                 <input type="number" class="form-control @error('qty[]') is-invalid @enderror " id="qty-0"
-                                                name="qty[]" onchange="loadData(0)" min="0" oninput="validity.valid||(value='');" value="{{ old('qty[]') }}" disabled />
+                                                name="qty[]" onchange="loadData(0)" min="0" oninput="validity.valid||(value='');" value="{{ old('qty[]') }}" disabled required />
                                                 <small class="text-muted" id="infoStok-0">Stok : -</small>
                                             @error('qty[]')
                                             <div class="invalid-feedback">
@@ -131,7 +131,8 @@
 
     @push('body-script')
 
-        <script>  
+        <script>
+            $('#obat-0').select2();
             var id = 1
             const loadData = (index) => {
                 let stokAkhir;
@@ -205,6 +206,7 @@
             }
 
             const addRow = () => {
+            
                var index = id++
                const table = document.getElementById('table');
                var row = table.insertRow(2);
@@ -264,7 +266,8 @@
                                                 </div>
                                                 @enderror
                                             </div>`
-                cell5.innerHTML = `<button type="button" class="btn btn-danger" onclick="delRow(this)">Hapus</button>`
+                cell5.innerHTML = `<button type="button" class="btn btn-danger" onclick="delRow(this)">Hapus</button>`;
+                $('#obat-'+index).select2();
             }
             const delRow = (r) => {
             var i = r.parentNode.parentNode.rowIndex;
