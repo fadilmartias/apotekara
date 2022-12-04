@@ -67,33 +67,6 @@ class PembelianController extends Controller
             ]);
         }
 
-        // $validatedData = $request->validate([
-        //     'name' => 'required',
-        //     'satuan' => 'required',
-        //     'qty' => 'required',
-        //     'nama_penjual' => 'required',
-        //     'harga_satuan' => 'required',
-        // ]);
-
-
-        // $stokAwal = $obat->stok;
-        // $stokAkhir = $stokAwal + $validatedData['qty'];
-        // $totalHarga = $validatedData['harga_satuan'] * $validatedData['qty'];
-
-        // Pembelian::create([
-        //     'user_id' => Auth::user()->id,
-        //     'obat_id' => $validatedData['name'],
-        //     'satuan' => $validatedData['satuan'],
-        //     'qty' => $validatedData['qty'],
-        //     'harga_satuan' => $validatedData['harga_satuan'],
-        //     'total_harga' => $totalHarga,
-        //     'nama_penjual' => $validatedData['nama_penjual'],
-        // ]);
-
-        // $obat->update([
-        //     'stok' => $stokAkhir
-        // ]);
-
         return to_route('pembelian.index')->with('success', 'Data berhasil ditambahkan');
     }
 }

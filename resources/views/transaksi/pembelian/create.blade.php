@@ -47,7 +47,7 @@
                                         <td>
                                             <div class="form-group">
                                                 <div>
-                                                    <select name="obat_id[]" id="obat-0" class="form-control" onchange="loadData(0)" >
+                                                    <select name="obat_id[]" id="obat-0" class="form-control" onchange="loadData(0)" style="width:684.469px">
                                                     <option selected disabled>--- Pilih Obat ---</option>
                                                     @foreach ($obat as $data)
                                                     <option {{ old('obat_id[]') == $data->id ? "selected" : "" }} value="{{ $data->id }}" data-stok="{{ $data->stok }}" data-harga="{{ $data->harga }}">{{ $data->nama_obat }}</option>
@@ -226,7 +226,7 @@
 
                cell1.innerHTML = `<div class="form-group">
                                                 <div>
-                                                    <select name="obat_id[]" id="obat-${index}" class="form-control" onchange="loadData(${index})">
+                                                    <select name="obat_id[]" id="obat-${index}" class="form-control" onchange="loadData(${index})" style="width:684.469px">
                                                     <option selected disabled>--- Pilih Obat ---</option>
                                                     @foreach ($obat as $data)
                                                     <option value="{{ $data->id }}" data-stok="{{ $data->stok }}" data-harga="{{ $data->harga }}">{{ $data->nama_obat }}</option>
@@ -255,7 +255,7 @@
                                                     <span class="input-group-text">Rp</span>
                                                   </div>
                                                 <input type="text" class="text-right form-control @error('harga[]') is-invalid @enderror"
-                                                    id="harga-${index}" name="harga[]" min="0" oninput="validity.valid||(value='');" value="{{ old('harga[]') }}" disabled required />
+                                                    id="harga-${index}" name="harga[]" min="0" oninput="validity.valid||(value='');" value="{{ old('harga[]') }}" disabled />
                                                 @error('harga[]')
                                                     <div class="invalid-feedback">
                                                         {{ $message }}
@@ -267,7 +267,7 @@
                                                     <span class="input-group-text">Rp</span>
                                                   </div>
                                                 <input type="text" class="text-right form-control @error('total_harga[]') is-invalid @enderror"
-                                                id="total_harga-${index}" name="total_harga[]" min="0" oninput="validity.valid||(value='');" value="{{ old('total_harga[]') }}" disabled required />
+                                                id="total_harga-${index}" name="total_harga[]" min="0" oninput="validity.valid||(value='');" value="{{ old('total_harga[]') }}" disabled />
                                                 @error('total_harga[]')
                                                 <div class="invalid-feedback">
                                                     {{ $message }}
@@ -275,7 +275,9 @@
                                                 @enderror
                                             </div>`
                 cell5.innerHTML = `<button type="button" class="btn btn-danger" onclick="delRow(this)">Hapus</button>`;
-                $('#obat-'+index).select2();
+                $('#obat-'+index).select2({
+                    width: 'style'
+                });
             }
             const delRow = (r) => {
             var i = r.parentNode.parentNode.rowIndex;
