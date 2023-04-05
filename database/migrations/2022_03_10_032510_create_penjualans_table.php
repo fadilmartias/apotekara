@@ -17,7 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('no_transaksi')->unique();
-            $table->integer('total_transaksi')->nullable();
+            $table->integer('ongkir')->nullable();
+            $table->integer('total_transaksi');
+            $table->string('nama_pembeli')->nullable();
             $table->timestamps();
 
         });

@@ -18,13 +18,15 @@ class ObatSeeder extends Seeder
         Obat::create([
             'nama_obat' => 'Amlodipine 5mg',
             'harga' => '5000',
-            'stok' => '10'
+            'stok' => '10',
+            'diskon' => '10',
         ]);
 
         Obat::create([
             'nama_obat' => 'Mucera',
             'harga' => '55000',
-            'stok' => '5'
+            'stok' => '5',
+            'diskon' => '0',
         ]);
 
         // Obat::factory()->count(1000)->create();

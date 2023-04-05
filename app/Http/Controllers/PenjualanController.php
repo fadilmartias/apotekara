@@ -7,6 +7,7 @@ use App\Models\Penjualan;
 use Illuminate\Http\Request;
 use App\Models\PenjualanDetail;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class PenjualanController extends Controller
 {
@@ -37,7 +38,7 @@ class PenjualanController extends Controller
         ]);
         for ($i=0; $i < count($validatedData['obat_id']); $i++) {
             $obat[$i] = Obat::where('id', $validatedData['obat_id'][$i])->first();
-            $stokAwal[$i] = $obat[$i]->stok; 
+            $stokAwal[$i] = $obat[$i]->stok;
             if($validatedData['qty'][$i] > $stokAwal[$i]){
                 return redirect()->back()->with('error', 'Stok tidak cukup');
             }
@@ -53,7 +54,7 @@ class PenjualanController extends Controller
         ]);
 
         $penjualan = Penjualan::latest()->first();
-        
+
         for ($i=0; $i < count($validatedData['obat_id']); $i++) {
             $obat[$i] = Obat::where('id', $validatedData['obat_id'][$i])->first();
             $data = [
@@ -63,7 +64,7 @@ class PenjualanController extends Controller
                 'total_harga' => $obat[$i]->harga * $validatedData['qty'][$i],
                 'no_transaksi' => $penjualan->no_transaksi
             ];
-            $stokAwal[$i] = $obat[$i]->stok; 
+            $stokAwal[$i] = $obat[$i]->stok;
             $stokAkhir[$i] = $stokAwal[$i] - $validatedData['qty'][$i];
             PenjualanDetail::create($data);
             $obat[$i]->update([
@@ -72,5 +73,21 @@ class PenjualanController extends Controller
         }
 
         return to_route('penjualan.index')->with('success', 'Data berhasil ditambahkan');
+    }
+
+    public function invoice(Request $request, $id)
+    {
+        $data = Penjualan::findOrFail($id);
+        $data->update([
+            'nama_pembeli' => $request->nama_pembeli
+        ]);
+        $harga = $data->details->sum('total_harga');
+        $pdf = Pdf::loadView('transaksi.penjualan.invoice', [
+            'data' => $data,
+            'harga' => $harga,
+            'alamat_pembeli' => $request->alamat_pembeli,
+            'telp_pembeli' => $request->telp_pembeli
+        ])->setPaper('a4', 'landscape');
+        return $pdf->stream();
     }
 }

@@ -17,9 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('no_transaksi');
             $table->foreignId('obat_id')->constrained();
-            $table->integer('harga')->nullable();
-            $table->integer('qty')->nullable();
-            $table->integer('total_harga')->nullable();
+            $table->integer('harga');
+            $table->integer('diskon')->nullable();
+            $table->integer('qty');
+            $table->integer('total_harga');
             $table->timestamps();
 
             $table->foreign('no_transaksi')->references('no_transaksi')->on('penjualans');

@@ -13,6 +13,7 @@ class PenjualanDetail extends Model
         'no_transaksi',
         'obat_id',
         'qty',
+        'diskon',
         'harga',
         'total_harga'
     ];

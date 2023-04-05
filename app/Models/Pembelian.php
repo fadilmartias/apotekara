@@ -15,7 +15,8 @@ class Pembelian extends Model
         'total_transaksi',
         'user_id',
         'nama_penjual',
-        
+        'ongkir',
+
     ];
 
     public function User()

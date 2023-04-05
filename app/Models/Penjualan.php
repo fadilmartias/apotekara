@@ -15,6 +15,8 @@ class Penjualan extends Model
         'no_transaksi',
         'total_transaksi',
         'user_id',
+        'ongkir',
+        'nama_pembeli',
     ];
 
     /**
@@ -25,6 +27,11 @@ class Penjualan extends Model
     public function User()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function Details()
+    {
+        return $this->hasMany(PenjualanDetail::class, 'no_transaksi', 'no_transaksi');
     }
 
 }
