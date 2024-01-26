@@ -68,8 +68,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-1">
-                <form action=""method="post">
+            <div class="col-auto">
+                <form action="" method="post">
                     <select name="" id=""class="form-control">
                         <option value="">2022</option>
                     </select>

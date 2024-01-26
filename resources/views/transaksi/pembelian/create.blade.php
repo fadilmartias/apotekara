@@ -46,14 +46,12 @@
                                     <tr>
                                         <td>
                                             <div class="form-group">
-                                                <div>
-                                                    <select name="obat_id[]" id="obat-0" class="form-control" onchange="loadData(0)" style="width:684.469px">
+                                                    <select style="width: 100%" name="obat_id[]" id="obat-0" class="form-control" onchange="loadData(0)">
                                                     <option selected disabled>--- Pilih Obat ---</option>
                                                     @foreach ($obat as $data)
                                                     <option {{ old('obat_id[]') == $data->id ? "selected" : "" }} value="{{ $data->id }}" data-stok="{{ $data->stok }}" data-harga="{{ $data->harga }}">{{ $data->nama_obat }}</option>
                                                     @endforeach
                                                 </select>
-                                            </div>
                                             @error('obat_id[]')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -105,18 +103,18 @@
                                                <button type="button" class="btn btn-info" onclick="addRow()">Tambah</button>
                                         </td>
                                     </tr>
-                                    <tr> 
+                                    <tr>
                                        <td colspan="3" class="font-weight-bold"><h5>Total Transaksi</h5></td>
                                        <td>
                                         <div class="input-group">
                                             <div class="input-group-prepend">
                                                 <span class="input-group-text">Rp</span>
                                               </div>
-                                              <input type="text" name="total_transaksi" id="total" class="text-right form-control" 
+                                              <input type="text" name="total_transaksi" id="total" class="text-right form-control"
                                               {{-- style="background-color: white; border: 0"  --}}
                                               readonly>
                                         </div>
-                                        
+
                                        </td>
                                        <td>
                                         <button type="submit" class="btn btn-primary">Simpan</button>
@@ -137,12 +135,17 @@
         <script src="https://cdn.jsdelivr.net/npm/vanilla-masker@1.1.1/build/vanilla-masker.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <style>
+
+        </style>
     @endpush
 
     @push('body-script')
 
-        <script>  
-            $('#obat-0').select2();
+        <script>
+            $('#obat-0').select2({
+                width: 'resolve'
+            });
             var id = 1
             const loadData = (index) => {
                 const qty = document.querySelector('#qty-'+index);
@@ -156,11 +159,11 @@
                 qty.removeAttribute('disabled');
                 harga.value = hargaObat;
                 if(qty.value != "") {
-                    const stokAkhir = parseInt(stokObat) + parseInt(qty.value) 
+                    const stokAkhir = parseInt(stokObat) + parseInt(qty.value)
                     infoStok.innerHTML = `Stok : ${stokAkhir}`
                     total_harga.value = hargaObat * qty.value
                 } else {
-                    const stokAkhir = parseInt(stokObat) + qty.value 
+                    const stokAkhir = parseInt(stokObat) + qty.value
                     infoStok.innerHTML = `Stok : ${stokAkhir}`
                 }
                 var arr = document.getElementsByName('total_harga[]');
@@ -226,7 +229,7 @@
 
                cell1.innerHTML = `<div class="form-group">
                                                 <div>
-                                                    <select name="obat_id[]" id="obat-${index}" class="form-control" onchange="loadData(${index})" style="width:684.469px">
+                                                    <select style="width: 100%" name="obat_id[]" id="obat-${index}" class="form-control" onchange="loadData(${index})">
                                                     <option selected disabled>--- Pilih Obat ---</option>
                                                     @foreach ($obat as $data)
                                                     <option value="{{ $data->id }}" data-stok="{{ $data->stok }}" data-harga="{{ $data->harga }}">{{ $data->nama_obat }}</option>
@@ -239,7 +242,7 @@
                                             </div>
                                             @enderror
                                         </div>`
-                
+
                 cell2.innerHTML = `<div class="form-group">
                                                 <input type="number" class="form-control @error('qty[]') is-invalid @enderror" id="qty-${index}"
                                                 name="qty[]" onchange="loadData(${index})" min="0" oninput="validity.valid||(value='');" value="{{ old('qty[]') }}" disabled required />
@@ -276,7 +279,7 @@
                                             </div>`
                 cell5.innerHTML = `<button type="button" class="btn btn-danger" onclick="delRow(this)">Hapus</button>`;
                 $('#obat-'+index).select2({
-                    width: 'style'
+                    width: 'resolve'
                 });
             }
             const delRow = (r) => {

@@ -88,6 +88,6 @@ class PenjualanController extends Controller
             'alamat_pembeli' => $request->alamat_pembeli,
             'telp_pembeli' => $request->telp_pembeli
         ])->setPaper('a4', 'landscape');
-        return $pdf->stream();
+        return $pdf->stream('invoice.pdf');
     }
 }

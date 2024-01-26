@@ -84,7 +84,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('transaksi/penjualan/{id}/invoice', [PenjualanController::class, 'invoice'])->name('penjualan.invoice');
 
     // // routes pembelian
-    Route::get('trasaksi/pembelian', [PembelianController::class, 'index'])->name('pembelian.index');
+    Route::get('transaksi/pembelian', [PembelianController::class, 'index'])->name('pembelian.index');
     Route::get('transaksi/pembelian/create', [PembelianController::class, 'create'])->name('pembelian.create');
     Route::post('transaksi/pembelian/create', [PembelianController::class, 'store'])->name('pembelian.store');
 
